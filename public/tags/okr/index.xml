@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>OKR on Plutoxx8</title>
-    <link>https://www.plutoxx8.com/tags/okr/</link>
+    <link>https://plutoxx8.github.io/blog/tags/okr/</link>
     <description>Recent content in OKR on Plutoxx8</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Sat, 03 Feb 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://www.plutoxx8.com/tags/okr/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://plutoxx8.github.io/blog/tags/okr/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>google</title>
-      <link>https://www.plutoxx8.com/posts/google-okr-22.50.42/</link>
+      <link>https://plutoxx8.github.io/blog/posts/google-okr-22.50.42/</link>
       <pubDate>Sat, 03 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>https://www.plutoxx8.com/posts/google-okr-22.50.42/</guid>
-      <description>11 22 33 上周四，Google CEO Pichai 在备忘录中提到的公司级 OKRs（Objectives and Key Results，目标与关键成果）。&#xA;目标如下： 1.⁠ ⁠打造全球最领先、最安全、最有社会责任感的人工智能（AI）。 2.⁠ ⁠提升知识水平、学习能力、创造力和工作效率。 3. 开发出最实用的个人计算平台和设备。 4.⁠ ⁠支持各组织和开发者在谷歌云平台上进行创新。 5. 提供全球最受信赖的产品和平台。 6. 建设一个对谷歌员工和全世界都极具价值的谷歌公司。 7.⁠ ⁠提升公司的运营速度、效率和生产力，并实现长期的成本节约。</description>
+      <guid>https://plutoxx8.github.io/blog/posts/google-okr-22.50.42/</guid>
+      <description>11 22 33 上周四，Google CEO Pichai 在备忘录中提到的公司级 OKRs（Objectives and Key Results，目标与关键成果）。
+目标如下： 1.⁠ ⁠打造全球最领先、最安全、最有社会责任感的人工智能（AI）。 2.⁠ ⁠提升知识水平、学习能力、创造力和工作效率。 3. 开发出最实用的个人计算平台和设备。 4.⁠ ⁠支持各组织和开发者在谷歌云平台上进行创新。 5. 提供全球最受信赖的产品和平台。 6. 建设一个对谷歌员工和全世界都极具价值的谷歌公司。 7.⁠ ⁠提升公司的运营速度、效率和生产力，并实现长期的成本节约。</description>
     </item>
   </channel>
 </rss>
