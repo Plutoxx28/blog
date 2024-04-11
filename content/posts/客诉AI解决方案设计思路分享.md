@@ -28,7 +28,7 @@ AI的快速发展及展现出来的爆炸效果，使得很多人都想把AI能�
 3月国内外AI产品榜单（仅列出top10）：
 
 ![排行榜单](https://blogpicxx8.oss-cn-shanghai.aliyuncs.com/%E6%8E%92%E8%A1%8C%E6%A6%9C%E5%8D%95.jpg)
-详细榜单可查看：[https://dnipkggqxh.feishu.cn/wiki/J0NMwIIPqipbBhkcz7Ycz7jpnBg]
+详细榜单可查看：[3月全球AI产品排行榜](https://dnipkggqxh.feishu.cn/wiki/J0NMwIIPqipbBhkcz7Ycz7jpnBg)
 
 客诉是人与人之间的沟通，基本是“用户”描述诉求，“客服”查询信息给予回复来解决问题，命中了chat的场景。而LLM对于信息查询、一定的推理都比较擅长，所以很多公司对使用LLM来降低客诉成本这件事寄予厚望，认为**80%** 的客服都可以通过LLM来替代。
 引用一段内容来描述目前及未来的客诉+LLM演进方向是比较合适的。
@@ -148,6 +148,7 @@ prompt设计完成后需要进行校验，判断一定量级的真实场景下�
 其次，AI的扩展性更好，如果要新增场景只需要对prompt做相关更改即可覆盖。  
 最后，这种判断方式一定要跟前端做结合，我们通常遇到的客诉基本都是出来一个list让你选，外卖柜也不例外，做这件事的初衷也是希望可以直接用AI定位用户的问题引导到指定的解决方案，减少用户的选择，真实的提高用户体验。
 # 五、最后
-以及可以从我之前写的文章里看看相关的prompt写作技巧[https://plutoxx8.github.io/blog/posts/prompt%E5%86%99%E4%BD%9C%E6%8A%80%E5%B7%A7]  
+以及可以从我之前写的文章里看看相关的prompt写作技巧：
+[prompt写作技巧](https://plutoxx8.github.io/blog/posts/prompt%E5%86%99%E4%BD%9C%E6%8A%80%E5%B7%A7)
 
 祝大家做强大力量的掌控者🫴
