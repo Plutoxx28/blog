@@ -82,12 +82,13 @@ L4阶段是随着LLM能力的发展，也许在某些场景幻觉可以消失，
 ###1、用户基本都在反馈什么事件？你来做总结概括，其中涉及到的数字的部分，需要经过你的一步一步计算，而不是随便给出，概括样式见示例。 
 示例：""" 从反馈内容来看，用户基本上都在反馈关于无法开启具体地点的外卖柜、外卖柜离线或格口问题以及超时未取餐导致的锁定情况。 65%以上的客诉事件是在反映“无法开启具体地点的外卖柜”问题，针对这些内容的客服的处理结果通常是“核实格口空闲开柜”。 其中也有少部分的“离线”问题，这部分问题，客服处理结果90%以上是“升级TT”。 还有一部分是因为“格口锁定”问题所以无法开柜，这部分问题客服的处理结果绝大部分是“核实用户的取餐码后，联系运营，确认能否开柜”。 剩下一些是复合的客诉事件，包含了以上几种问题的混合。 """ 
 ###2、你需要分析客服的解决方案占比。 客服通常处理结果：
-1）开柜（核对取餐码开柜、联系运营后开柜、空闲开柜都属于协助用户开柜）；
-2）升级客服（客服本人无法解决，需要升级给到二线客服决策，但如果最后包含了）；
-3）联系骑手/商家（客服本人要求用户去联系骑手或者联系商家）； 
-4）赔付（用于用户丢餐的处理，会有一定的赔偿） 
+1）开柜（********）；
+2）升级客服（********）；
+3）联系骑手/商家（********）； 
+4）赔付（********） 
 5）其他处理结果，你来概括。
 ```
+"********"表示的是对应分类的定义。
 
 **3、结果展示**
 模型对于数据计算不会那么准确，文本过长则不会分析上下文，基本只会按照关键词来进行分析处理，所以**不要完全相信模型给出的数字，只作为参考即可。** 还需要结合听音等其他信息综合分析。  
@@ -109,64 +110,21 @@ L4阶段是随着LLM能力的发展，也许在某些场景幻觉可以消失，
 输出格式：不需要思考过程，只需要返回一个JSON对象，包含决策结果的键值对，键为'解决方案'。
 ---
 ##开柜规则：
-1. 柜机检查
-- 在**错误的柜机前**，返回 { "解决方案": "人工服务" }
-- 柜机在线状态检测
-    - 如果柜机**离线**，返回 { "解决方案": "人工服务" }
-    - 如果柜机在线，执行后续流程。
-2.是否被运维人员清理
-- 是，返回 { "解决方案": "人工服务" }
-- 否，继续其他判定流程。
-3. 用户信息和订单匹配
-- 如果订单**未取**，协助开柜
-- 格口状态：
-    - **非空闲**，协助开柜
-    - **锁定**，返回 { "解决方案": "人工服务" }
-    - **已取且空闲**，协助开柜
-    - **已取但非空闲**，返回 { "解决方案": "人工服务" }
-4. 用户信息与订单不一致或无存件记录
-- 格口状态检查：
-    - 如果格口**空闲**，可协助开柜。
-    - 如果格口**非空闲**或**不知道格口号**，核对取餐码、骑手存餐时间
-        - 任意一个一致，协助开柜
-        - 全部不一致，返回 { "解决方案": "人工服务" }         
-5. 双面柜情况
-如果是双面柜，在返回解决方案后，增加 { "柜机类型"：双面柜}
+xx
 ```
+因信息保密以xx取代相关关键内容。
 
 **外卖柜英文prompt**
 ```
 You are a professional customer service representative for a food delivery locker service, skilled in determining whether to assist users with opening locker cells. Your approach to each issue is systematic, and you avoid making subjective judgments. You possess an in-depth understanding of the "Locker Cell Opening Decision Criteria" and are adept at quickly responding to various combinations of rules, making decisions about opening the locker cells or providing manual assistance.
 
-## Purpose: To decide whether to assist users in opening locker cells.  
-## Output Format:No need for the thought process, only the results in the form of key-value pairs are required, with the key being 'Solution'.  
-- Cabinet opening result returned: { "Solution": "Assist in Opening Locker" }  
-- Manual result returned: { "Solution": "Manual Service" }  
+## Purpose: xx 
+## Output Format:xx
 ## Locker Cell Opening Rules:  
-1. Locker Machine Check  
-If at the wrong locker machine, return "Manual result"  
-Check the online status of the locker machine  
-If the locker is offline, return "Manual result"  
-If the locker is online, proceed to the next steps.  
-2. Cleaned by Maintenance Staff  
-If yes, return "Manual result"  
-If no, continue with additional assessments.  
-3. Matching User Information and Order  
-If the order has not been collected, assist in opening the locker cell  
-Status of the locker cell:  
-If not idle, assist in opening  
-If locked, return "Manual result"  
-If collected and idle, assist in opening  
-If collected but not idle, return "Manual result"  
-4. Inconsistency in User Information and Order or No Deposit Record  
-Check the status of the locker cell:  
-If the cell is idle, assist in opening  
-If the cell is not idle or the cell number is unknown, verify the meal pickup code, the rider's meal deposit time, or the rider's mobile number  
-If any of these match, assist in opening  
-If none match, return "Manual result"  
-5. Double-sided Locker Situation  
-In the case of a double-sided locker, add { "Locker Type": "Double-sided" } after providing the solution.
+xx
 ```
+因信息保密以xx取代相关关键内容。
+
 这个prompt设计有几个核心要点：
 - 写完中文prompt时，需要再写个英文的prompt进行最终调用，有两个原因：第一，对于ChatGPT来说英文prompt回复质量更高；第二英文prompt的token更少，费用更低。外卖柜这个prompt的版本来回一次调用仅花费0.1元。
 - 需要定义对应的输入字段，结合输入字段传入最终判断结果。
@@ -193,4 +151,3 @@ prompt设计完成后需要进行校验，判断一定量级的真实场景下�
 以及可以从我之前写的文章里看看相关的prompt写作技巧[https://plutoxx8.github.io/blog/posts/prompt%E5%86%99%E4%BD%9C%E6%8A%80%E5%B7%A7/]  
 
 祝大家做强大力量的掌控者🫴
-![gogogo](https://blogpicxx8.oss-cn-shanghai.aliyuncs.com/IMG_5282.jpg)
