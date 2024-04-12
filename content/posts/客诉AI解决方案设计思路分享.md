@@ -6,7 +6,7 @@ categories:
 - AI
 tags: 
 - prompt
-description: "" #文章描述
+description: "Plutoxx8的blog,客诉AI解决方案,AI解决方案,ChatGPT客诉,prompt教学,prompt教程,prompt" #文章描述
 weight: # 输入1可以顶置文章，用来给文章展示排序，不填就默认按时间排序
 slug: "" #seo使用，示例：http://example.com/ultimate-guide-making-perfect-pasta
 draft: false # 是否为草稿
