@@ -5,7 +5,7 @@ author: ["Plutoxx8"] #作者
 categories: 
 - AI
 tags: 
-- prompt
+- AI应用
 description: "" #文章描述
 weight: # 输入1可以顶置文章，用来给文章展示排序，不填就默认按时间排序
 slug: "" #seo使用，示例：http://example.com/ultimate-guide-making-perfect-pasta
@@ -49,7 +49,7 @@ L4阶段是随着LLM能力的发展，也许在某些场景幻觉可以消失，
 
 短期方案应用在了外卖柜的客诉问题解决上，下面我会详细介绍这种方案的设计思路。
 # 二、框架
-![框架](https://blogpicxx8.oss-cn-shanghai.aliyuncs.com/%E6%A1%86%E6%9E%B6.jpg)
+![框架](https://blogpicxx8.oss-cn-shanghai.aliyuncs.com/%E6%A1%86%E6%9E%B6)
 - **定位问题：** 通过分析客诉数据来识别问题类型和占比，同时考虑ROI确定优先级。定位问题的方式很多，下面会详细介绍使用ChatGPT获取上述信息的方式。
 - **概括场景：** 概括场景的目的是通过已定位的问题，获取相关场景的解决方案、规则和知识库信息。理解各场景的特定需求和判断条件。
 - **AI方案设计：** 根据问题的定位和场景的概括，设计AI方案。包括每个场景具体的prompt和输入字段及输入字段规则，确保AI可以精确识别并应对各种客诉。
