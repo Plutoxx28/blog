@@ -1,28 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<<<<<<< HEAD
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Agent on Plutoxx8</title>
-    <link>http://localhost:1313/blog/tags/agent/</link>
-=======
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Agent on Plutoxx8</title>
     <link>https://plutoxx8.github.io/blog/tags/agent/</link>
->>>>>>> 94ecd10 (update)
     <description>Recent content in Agent on Plutoxx8</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.122.0</generator>
     <language>en</language>
     <lastBuildDate>Sun, 21 Apr 2024 00:00:00 +0000</lastBuildDate>
-<<<<<<< HEAD
-    <atom:link href="http://localhost:1313/blog/tags/agent/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Reflection整理与思考</title>
-      <link>http://localhost:1313/blog/posts/reflection%E6%80%9D%E8%80%83/</link>
-      <pubDate>Sun, 21 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/blog/posts/reflection%E6%80%9D%E8%80%83/</guid>
-      <description>最近看了吴恩达老师分享的Agent的设计模式，思考发现Reflection不止可以用在代码层面，在prompt上也可以有很好的应用。&#xA;视频链接：What&amp;rsquo;s next for AI agentic workflows ft. Andrew Ng of AI Fund&#xA;Reflection是一种使AI能够自我审视和分析其决策过程与行为表现的技术，让agent通过回顾自己的行为和接收的反馈，识别决策和知识的不足，进而调整和优化，以期在未来任务中表现得更好。&#xA;一、框架 Actor接收环境的状态信息，结合短期记忆（轨迹）生成初步的内容或动作。通过内部反馈和外部反馈并结合自我反思机制进行反思，过程中利用长期记忆（经验）优化生成的的内容或动作。&#xA;组成部分：&#xA;Actor：根据观察到的状态输出必要的文本和动作。 Evaluator（评估器）：是核心模块，负责检验Actor创建的输出品质。评估器通过分析生成的结果，并基于任务的具体情境计算出一个奖励分数来评价这些结果的表现。 internal feedback：是与既定目标或标准进行比较得出的，目的是让模型能够在没有外部输入的情况下自我调整和优化。 External feedback：非Evaluator输出，来自真实世界的应用反馈、用户互动、专家评审或其他机器学习系统的输出。 Self-reflection：结合评估标准、内部反馈（过去的教训）、外部反馈（应用反馈/专家评审等）生成对于初始内容或动作的反思。 Memory：“轨迹历史”作为短期记忆，而自我反思模型的输出则被保存为长期记忆。这两种记忆类型的结合为agent提供了即具体又包含多次尝试中学习到的教训的上下文。 记忆： 当检索内容过多时，长期记忆可以帮助agent快速定位&amp;amp;检索。&#xA;二、细节 步骤：&#xA;Actor通过与环境的交互生成一系列行动轨迹 τ0。 评估器根据这些行动输出一个得分 r0，此得分通过公式 rt = Me(τ0) 计算得出，代表了该尝试的效果，其值会随着对应任务表现的提升而增加。 完成初次尝试后，为了把这个得分 r0 转化为 LLM 可以利用来进行改进的具体反馈，自我反思模型分析这对 {τ0, r0}，并总结出一个摘要 sr0，随后将其保存在记忆库中。这个摘要 srt 提供了针对该次尝试的直接经验反馈。 Actor、Evaluator以及Self-reflection模型协同工作，通过重复的尝试循环不断优化，直至评估器判断最新的轨迹 τt 达到预期的正确性。 根据反馈生成优化后的内容或行为。 三、结论 可以看到基模型在使用self-refine后对于不同工作的性能大幅提升。 使用reflexion技术后，各种模型在HotPotQA数据集上的首次通过准确率均有所提高。 四、示例 4.1 Decision-making Environment: You are in the middle of a room. Looking quickly around you, you see a bed 1, a desk 2, a desk 1, a drawer 6, a drawer 5, a drawer 4, a drawer 3, a drawer 2, a drawer 1, a garbagecan 1, a laundryhamper 1, a safe 1, a shelf 6, a shelf 5, a shelf 4, a shelf 3, a shelf 2, and a shelf 1.</description>
-=======
     <atom:link href="https://plutoxx8.github.io/blog/tags/agent/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Reflection整理与思考</title>
@@ -37,7 +21,6 @@ Reflection是一种使AI能够自我审视和分析其决策过程与行为表�
 Actor：根据观察到的状态输出必要的文本和动作。 Evaluator（评估器）：是核心模块，负责检验Actor创建的输出品质。评估器通过分析生成的结果，并基于任务的具体情境计算出一个奖励分数来评价这些结果的表现。 internal feedback：是与既定目标或标准进行比较得出的，目的是让模型能够在没有外部输入的情况下自我调整和优化。 External feedback：非Evaluator输出，来自真实世界的应用反馈、用户互动、专家评审或其他机器学习系统的输出。 Self-reflection：结合评估标准、内部反馈（过去的教训）、外部反馈（应用反馈/专家评审等）生成对于初始内容或动作的反思。 Memory：“轨迹历史”作为短期记忆，而自我反思模型的输出则被保存为长期记忆。这两种记忆类型的结合为agent提供了即具体又包含多次尝试中学习到的教训的上下文。 记忆： 当检索内容过多时，长期记忆可以帮助agent快速定位&amp;amp;检索。
 二、细节 步骤：
 Actor通过与环境的交互生成一系列行动轨迹 τ0。 评估器根据这些行动输出一个得分 r0，此得分通过公式 rt = Me(τ0) 计算得出，代表了该尝试的效果，其值会随着对应任务表现的提升而增加。 完成初次尝试后，为了把这个得分 r0 转化为 LLM 可以利用来进行改进的具体反馈，自我反思模型分析这对 {τ0, r0}，并总结出一个摘要 sr0，随后将其保存在记忆库中。这个摘要 srt 提供了针对该次尝试的直接经验反馈。 Actor、Evaluator以及Self-reflection模型协同工作，通过重复的尝试循环不断优化，直至评估器判断最新的轨迹 τt 达到预期的正确性。 根据反馈生成优化后的内容或行为。 三、结论 可以看到基模型在使用self-refine后对于不同工作的性能大幅提升。 使用reflexion技术后，各种模型在HotPotQA数据集上的首次通过准确率均有所提高。 四、示例 4.1 Decision-making Environment: You are in the middle of a room. Looking quickly around you, you see a bed 1, a desk 2, a desk 1, a drawer 6, a drawer 5, a drawer 4, a drawer 3, a drawer 2, a drawer 1, a garbagecan 1, a laundryhamper 1, a safe 1, a shelf 6, a shelf 5, a shelf 4, a shelf 3, a shelf 2, and a shelf 1.</description>
->>>>>>> 94ecd10 (update)
     </item>
   </channel>
 </rss>

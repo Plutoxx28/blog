@@ -1,54 +1,32 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Tags on Plutoxx8</title>
-    <link>http://localhost:1313/blog/tags/</link>
+    <link>https://plutoxx8.github.io/blog/tags/</link>
     <description>Recent content in Tags on Plutoxx8</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.122.0</generator>
     <language>en</language>
     <lastBuildDate>Sun, 21 Apr 2024 00:00:00 +0000</lastBuildDate>
-<<<<<<< HEAD
-    <atom:link href="http://localhost:1313/blog/tags/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Agent</title>
-      <link>http://localhost:1313/blog/tags/agent/</link>
-      <pubDate>Sun, 21 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/blog/tags/agent/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Prompt</title>
-      <link>http://localhost:1313/blog/tags/prompt/</link>
-      <pubDate>Thu, 18 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/blog/tags/prompt/</guid>
-=======
     <atom:link href="https://plutoxx8.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Agent</title>
       <link>https://plutoxx8.github.io/blog/tags/agent/</link>
-      <pubDate>Sun, 21 Apr 2024 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://plutoxx8.github.io/blog/tags/agent/</guid>
       <description></description>
     </item>
     <item>
       <title>prompt</title>
       <link>https://plutoxx8.github.io/blog/tags/prompt/</link>
-      <pubDate>Thu, 18 Apr 2024 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://plutoxx8.github.io/blog/tags/prompt/</guid>
->>>>>>> 94ecd10 (update)
       <description></description>
     </item>
     <item>
       <title>AI应用</title>
-<<<<<<< HEAD
-      <link>http://localhost:1313/blog/tags/ai%E5%BA%94%E7%94%A8/</link>
-      <pubDate>Thu, 11 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/blog/tags/ai%E5%BA%94%E7%94%A8/</guid>
-=======
       <link>https://plutoxx8.github.io/blog/tags/ai%E5%BA%94%E7%94%A8/</link>
-      <pubDate>Thu, 11 Apr 2024 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://plutoxx8.github.io/blog/tags/ai%E5%BA%94%E7%94%A8/</guid>
->>>>>>> 94ecd10 (update)
       <description></description>
     </item>
   </channel>
