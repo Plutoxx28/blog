@@ -1,2 +1,598 @@
+<<<<<<< HEAD
 
 <script src="/blog/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=blog/livereload" data-no-instant defer></script>
+=======
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>客诉AI解决方案设计思路分享 | Plutoxx8</title>
+<meta name="keywords" content="AI应用">
+<meta name="description" content="一、前言 AI的快速发展及展现出来的爆炸效果，使得很多人都想把AI能力应用到项目中。目前行业上落地比较好的是Chatbot、工具、虚拟角色等。 3月国内外AI产品榜单（仅列出top10）：
+详细榜单可查看：3月全球AI产品排行榜
+客诉是人与人之间的沟通，基本是“用户”描述诉求，“客服”查询信息给予回复来解决问题，命中了chat的场景。而LLM对于信息查询、一定的推理都比较擅长，所以很多公司对使用LLM来降低客诉成本这件事寄予厚望，认为80% 的客服都可以通过LLM来替代。 引用一段内容来描述目前及未来的客诉&#43;LLM演进方向是比较合适的。
+L1阶段： 纯坐席人工回复，即为前面所达的传统客服对话工作流。
+L2阶段： 以坐席人工回复为主，LLM回复作为辅，称为“话术推荐”。
+L3阶段： 以LLM回复为主，坐席在旁监督，必要时会“踩刹车”接管。
+L4阶段： LLM完全像人类一样能独立承接好用户的诉求，理想情况下技术能达到的终极目标
+L2阶段主要是给“客服”人员提效；
+L3阶段则是转换“客服”工作，变更为监督，因为LLM有幻觉，直接跟用户对话的话，生成内容不可控，对于客诉这种需要明确答案的场景比较致命，所以需要监管；
+L4阶段是随着LLM能力的发展，也许在某些场景幻觉可以消失，或者有控制幻觉的技术手段。 目前我们探索的方案属于L4阶段，尝试用LLM来代替部分人类。
+解决思路：
+短期：内化模型，减少模型与用户的交互，用户看到的只是前端解决方案页面，以此来简化用户操作流程及减少幻觉。 中长期：利用agent能力，通过感知周围环境信息去自主决策、执行，选择应该查询的信息或者规则生成内容回复给用户，解决用户问题。 短期方案应用在了外卖柜的客诉问题解决上，下面我会详细介绍这种方案的设计思路。
+二、框架 定位问题： 通过分析客诉数据来识别问题类型和占比，同时考虑ROI确定优先级。定位问题的方式很多，下面会详细介绍使用ChatGPT获取上述信息的方式。 概括场景： 概括场景的目的是通过已定位的问题，获取相关场景的解决方案、规则和知识库信息。理解各场景的特定需求和判断条件。 AI方案设计： 根据问题的定位和场景的概括，设计AI方案。包括每个场景具体的prompt和输入字段及输入字段规则，确保AI可以精确识别并应对各种客诉。 效果校验： 设计完成后，选取测试集来检验方案的实际表现。根据测试反馈进行调整，优化方案以提高识别和处理的准确性。 三、详细思路 （一）定位问题 通常在定位问题时，需要通过大量的客诉分析和听音来更全面地了解当前的“问题类型现状”和“客服处理结果现状”，从而减少客服概括错误或标注错误带来的影响。使用ChatGPT来分析数以万计的客诉可以显著节省时间；但分析完成后，还需进行人工复核以确保分析的准确性。
+首先，我们利用SQL筛选出需要分析的客诉类别，并提取出“反馈问题”及“处理结果”这两个关键数据字段。然后，将这些数据以Excel格式提供给ChatGPT，请求其进行详细分析。
+1、prompt模板
+1 2 &#34;角色&#34;&#43;&#34;擅长能力&#34;&#43;&#34;背景介绍&#34;&#43;&#34;你的诉求&#34; ##分析要求及步骤 注：
+prompt中的“角色”设定是为了提升模型的互动质量和用户体验，让模型以设定的角色视角来回复。 “背景介绍”是为了告诉模型现在是什么情况，类似你要求别人做事情时候需要告诉别人背景，别人才能给出更符合你问题的回复。 “分析要求及步骤”是为了告诉ChatGPT，你需要怎么分析，具体需要“它”执行什么步骤，如果有明确的分析分类，甚至可以给出分类定义，会得到相对更高质量的回复。可以适当增加“示例”来告诉模型你想要的是什么样的分析。 “##”是分隔符，提高prompt的可读性。 prompt不是一步到位的，你需要跟模型有持续的互动，不停调整prompt来达到想要的效果。 2、prompt示例 以下是我在分析外卖柜客诉问题时的prompt，供参考。
+1 2 3 4 5 6 7 8 9 10 11 12 13 你是优秀的数据分析专家，善于利用各种手段来通过数据分析问题。 “取餐码错误 3.27”是一个关于外卖柜客诉的Excel，“工单问题”代表了这些客诉工单的类别；“反馈内容”代表了用户来电的事件概要；“处理结果”代表了客服对于这件事的处理结果。 你需要先进行解析，再进行分析、概括。 ##你需要分析以下内容 ###1、用户基本都在反馈什么事件？你来做总结概括，其中涉及到的数字的部分，需要经过你的一步一步计算，而不是随便给出，概括样式见示例。 示例：&#34;&#34;&#34; 从反馈内容来看，用户基本上都在反馈关于无法开启具体地点的外卖柜、外卖柜离线或格口问题以及超时未取餐导致的锁定情况。 65%以上的客诉事件是在反映“无法开启具体地点的外卖柜”问题，针对这些内容的客服的处理结果通常是“核实格口空闲开柜”。 其中也有少部分的“离线”问题，这部分问题，客服处理结果90%以上是“升级TT”。 还有一部分是因为“格口锁定”问题所以无法开柜，这部分问题客服的处理结果绝大部分是“核实用户的取餐码后，联系运营，确认能否开柜”。 剩下一些是复合的客诉事件，包含了以上几种问题的混合。 &#34;&#34;&#34; ###2、你需要分析客服的解决方案占比。 客服通常处理结果： 1）开柜（********）； 2）升级客服（********）； 3）联系骑手/商家（********）； 4）赔付（********） 5）其他处理结果，你来概括。 &ldquo;********&ldquo;表示的是对应分类的定义。">
+<meta name="author" content="Plutoxx8">
+<link rel="canonical" href="https://plutoxx8.github.io/blog/posts/%E5%AE%A2%E8%AF%89ai%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF%E5%88%86%E4%BA%AB/">
+<link crossorigin="anonymous" href="/blog/assets/css/stylesheet.b609c58d5c11bb90b1a54e04005d74ad1ddf22165eb79f5533967e57df9c3b50.css" integrity="sha256-tgnFjVwRu5CxpU4EAF10rR3fIhZet59VM5Z&#43;V9&#43;cO1A=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://plutoxx8.github.io/blog/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://plutoxx8.github.io/blog/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://plutoxx8.github.io/blog/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://plutoxx8.github.io/blog/apple-touch-icon.png">
+<link rel="mask-icon" href="https://plutoxx8.github.io/blog/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="客诉AI解决方案设计思路分享" />
+<meta property="og:description" content="一、前言 AI的快速发展及展现出来的爆炸效果，使得很多人都想把AI能力应用到项目中。目前行业上落地比较好的是Chatbot、工具、虚拟角色等。 3月国内外AI产品榜单（仅列出top10）：
+详细榜单可查看：3月全球AI产品排行榜
+客诉是人与人之间的沟通，基本是“用户”描述诉求，“客服”查询信息给予回复来解决问题，命中了chat的场景。而LLM对于信息查询、一定的推理都比较擅长，所以很多公司对使用LLM来降低客诉成本这件事寄予厚望，认为80% 的客服都可以通过LLM来替代。 引用一段内容来描述目前及未来的客诉&#43;LLM演进方向是比较合适的。
+L1阶段： 纯坐席人工回复，即为前面所达的传统客服对话工作流。
+L2阶段： 以坐席人工回复为主，LLM回复作为辅，称为“话术推荐”。
+L3阶段： 以LLM回复为主，坐席在旁监督，必要时会“踩刹车”接管。
+L4阶段： LLM完全像人类一样能独立承接好用户的诉求，理想情况下技术能达到的终极目标
+L2阶段主要是给“客服”人员提效；
+L3阶段则是转换“客服”工作，变更为监督，因为LLM有幻觉，直接跟用户对话的话，生成内容不可控，对于客诉这种需要明确答案的场景比较致命，所以需要监管；
+L4阶段是随着LLM能力的发展，也许在某些场景幻觉可以消失，或者有控制幻觉的技术手段。 目前我们探索的方案属于L4阶段，尝试用LLM来代替部分人类。
+解决思路：
+短期：内化模型，减少模型与用户的交互，用户看到的只是前端解决方案页面，以此来简化用户操作流程及减少幻觉。 中长期：利用agent能力，通过感知周围环境信息去自主决策、执行，选择应该查询的信息或者规则生成内容回复给用户，解决用户问题。 短期方案应用在了外卖柜的客诉问题解决上，下面我会详细介绍这种方案的设计思路。
+二、框架 定位问题： 通过分析客诉数据来识别问题类型和占比，同时考虑ROI确定优先级。定位问题的方式很多，下面会详细介绍使用ChatGPT获取上述信息的方式。 概括场景： 概括场景的目的是通过已定位的问题，获取相关场景的解决方案、规则和知识库信息。理解各场景的特定需求和判断条件。 AI方案设计： 根据问题的定位和场景的概括，设计AI方案。包括每个场景具体的prompt和输入字段及输入字段规则，确保AI可以精确识别并应对各种客诉。 效果校验： 设计完成后，选取测试集来检验方案的实际表现。根据测试反馈进行调整，优化方案以提高识别和处理的准确性。 三、详细思路 （一）定位问题 通常在定位问题时，需要通过大量的客诉分析和听音来更全面地了解当前的“问题类型现状”和“客服处理结果现状”，从而减少客服概括错误或标注错误带来的影响。使用ChatGPT来分析数以万计的客诉可以显著节省时间；但分析完成后，还需进行人工复核以确保分析的准确性。
+首先，我们利用SQL筛选出需要分析的客诉类别，并提取出“反馈问题”及“处理结果”这两个关键数据字段。然后，将这些数据以Excel格式提供给ChatGPT，请求其进行详细分析。
+1、prompt模板
+1 2 &#34;角色&#34;&#43;&#34;擅长能力&#34;&#43;&#34;背景介绍&#34;&#43;&#34;你的诉求&#34; ##分析要求及步骤 注：
+prompt中的“角色”设定是为了提升模型的互动质量和用户体验，让模型以设定的角色视角来回复。 “背景介绍”是为了告诉模型现在是什么情况，类似你要求别人做事情时候需要告诉别人背景，别人才能给出更符合你问题的回复。 “分析要求及步骤”是为了告诉ChatGPT，你需要怎么分析，具体需要“它”执行什么步骤，如果有明确的分析分类，甚至可以给出分类定义，会得到相对更高质量的回复。可以适当增加“示例”来告诉模型你想要的是什么样的分析。 “##”是分隔符，提高prompt的可读性。 prompt不是一步到位的，你需要跟模型有持续的互动，不停调整prompt来达到想要的效果。 2、prompt示例 以下是我在分析外卖柜客诉问题时的prompt，供参考。
+1 2 3 4 5 6 7 8 9 10 11 12 13 你是优秀的数据分析专家，善于利用各种手段来通过数据分析问题。 “取餐码错误 3.27”是一个关于外卖柜客诉的Excel，“工单问题”代表了这些客诉工单的类别；“反馈内容”代表了用户来电的事件概要；“处理结果”代表了客服对于这件事的处理结果。 你需要先进行解析，再进行分析、概括。 ##你需要分析以下内容 ###1、用户基本都在反馈什么事件？你来做总结概括，其中涉及到的数字的部分，需要经过你的一步一步计算，而不是随便给出，概括样式见示例。 示例：&#34;&#34;&#34; 从反馈内容来看，用户基本上都在反馈关于无法开启具体地点的外卖柜、外卖柜离线或格口问题以及超时未取餐导致的锁定情况。 65%以上的客诉事件是在反映“无法开启具体地点的外卖柜”问题，针对这些内容的客服的处理结果通常是“核实格口空闲开柜”。 其中也有少部分的“离线”问题，这部分问题，客服处理结果90%以上是“升级TT”。 还有一部分是因为“格口锁定”问题所以无法开柜，这部分问题客服的处理结果绝大部分是“核实用户的取餐码后，联系运营，确认能否开柜”。 剩下一些是复合的客诉事件，包含了以上几种问题的混合。 &#34;&#34;&#34; ###2、你需要分析客服的解决方案占比。 客服通常处理结果： 1）开柜（********）； 2）升级客服（********）； 3）联系骑手/商家（********）； 4）赔付（********） 5）其他处理结果，你来概括。 &ldquo;********&ldquo;表示的是对应分类的定义。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://plutoxx8.github.io/blog/posts/%E5%AE%A2%E8%AF%89ai%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF%E5%88%86%E4%BA%AB/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-04-11T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-04-11T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="客诉AI解决方案设计思路分享"/>
+<meta name="twitter:description" content="一、前言 AI的快速发展及展现出来的爆炸效果，使得很多人都想把AI能力应用到项目中。目前行业上落地比较好的是Chatbot、工具、虚拟角色等。 3月国内外AI产品榜单（仅列出top10）：
+详细榜单可查看：3月全球AI产品排行榜
+客诉是人与人之间的沟通，基本是“用户”描述诉求，“客服”查询信息给予回复来解决问题，命中了chat的场景。而LLM对于信息查询、一定的推理都比较擅长，所以很多公司对使用LLM来降低客诉成本这件事寄予厚望，认为80% 的客服都可以通过LLM来替代。 引用一段内容来描述目前及未来的客诉&#43;LLM演进方向是比较合适的。
+L1阶段： 纯坐席人工回复，即为前面所达的传统客服对话工作流。
+L2阶段： 以坐席人工回复为主，LLM回复作为辅，称为“话术推荐”。
+L3阶段： 以LLM回复为主，坐席在旁监督，必要时会“踩刹车”接管。
+L4阶段： LLM完全像人类一样能独立承接好用户的诉求，理想情况下技术能达到的终极目标
+L2阶段主要是给“客服”人员提效；
+L3阶段则是转换“客服”工作，变更为监督，因为LLM有幻觉，直接跟用户对话的话，生成内容不可控，对于客诉这种需要明确答案的场景比较致命，所以需要监管；
+L4阶段是随着LLM能力的发展，也许在某些场景幻觉可以消失，或者有控制幻觉的技术手段。 目前我们探索的方案属于L4阶段，尝试用LLM来代替部分人类。
+解决思路：
+短期：内化模型，减少模型与用户的交互，用户看到的只是前端解决方案页面，以此来简化用户操作流程及减少幻觉。 中长期：利用agent能力，通过感知周围环境信息去自主决策、执行，选择应该查询的信息或者规则生成内容回复给用户，解决用户问题。 短期方案应用在了外卖柜的客诉问题解决上，下面我会详细介绍这种方案的设计思路。
+二、框架 定位问题： 通过分析客诉数据来识别问题类型和占比，同时考虑ROI确定优先级。定位问题的方式很多，下面会详细介绍使用ChatGPT获取上述信息的方式。 概括场景： 概括场景的目的是通过已定位的问题，获取相关场景的解决方案、规则和知识库信息。理解各场景的特定需求和判断条件。 AI方案设计： 根据问题的定位和场景的概括，设计AI方案。包括每个场景具体的prompt和输入字段及输入字段规则，确保AI可以精确识别并应对各种客诉。 效果校验： 设计完成后，选取测试集来检验方案的实际表现。根据测试反馈进行调整，优化方案以提高识别和处理的准确性。 三、详细思路 （一）定位问题 通常在定位问题时，需要通过大量的客诉分析和听音来更全面地了解当前的“问题类型现状”和“客服处理结果现状”，从而减少客服概括错误或标注错误带来的影响。使用ChatGPT来分析数以万计的客诉可以显著节省时间；但分析完成后，还需进行人工复核以确保分析的准确性。
+首先，我们利用SQL筛选出需要分析的客诉类别，并提取出“反馈问题”及“处理结果”这两个关键数据字段。然后，将这些数据以Excel格式提供给ChatGPT，请求其进行详细分析。
+1、prompt模板
+1 2 &#34;角色&#34;&#43;&#34;擅长能力&#34;&#43;&#34;背景介绍&#34;&#43;&#34;你的诉求&#34; ##分析要求及步骤 注：
+prompt中的“角色”设定是为了提升模型的互动质量和用户体验，让模型以设定的角色视角来回复。 “背景介绍”是为了告诉模型现在是什么情况，类似你要求别人做事情时候需要告诉别人背景，别人才能给出更符合你问题的回复。 “分析要求及步骤”是为了告诉ChatGPT，你需要怎么分析，具体需要“它”执行什么步骤，如果有明确的分析分类，甚至可以给出分类定义，会得到相对更高质量的回复。可以适当增加“示例”来告诉模型你想要的是什么样的分析。 “##”是分隔符，提高prompt的可读性。 prompt不是一步到位的，你需要跟模型有持续的互动，不停调整prompt来达到想要的效果。 2、prompt示例 以下是我在分析外卖柜客诉问题时的prompt，供参考。
+1 2 3 4 5 6 7 8 9 10 11 12 13 你是优秀的数据分析专家，善于利用各种手段来通过数据分析问题。 “取餐码错误 3.27”是一个关于外卖柜客诉的Excel，“工单问题”代表了这些客诉工单的类别；“反馈内容”代表了用户来电的事件概要；“处理结果”代表了客服对于这件事的处理结果。 你需要先进行解析，再进行分析、概括。 ##你需要分析以下内容 ###1、用户基本都在反馈什么事件？你来做总结概括，其中涉及到的数字的部分，需要经过你的一步一步计算，而不是随便给出，概括样式见示例。 示例：&#34;&#34;&#34; 从反馈内容来看，用户基本上都在反馈关于无法开启具体地点的外卖柜、外卖柜离线或格口问题以及超时未取餐导致的锁定情况。 65%以上的客诉事件是在反映“无法开启具体地点的外卖柜”问题，针对这些内容的客服的处理结果通常是“核实格口空闲开柜”。 其中也有少部分的“离线”问题，这部分问题，客服处理结果90%以上是“升级TT”。 还有一部分是因为“格口锁定”问题所以无法开柜，这部分问题客服的处理结果绝大部分是“核实用户的取餐码后，联系运营，确认能否开柜”。 剩下一些是复合的客诉事件，包含了以上几种问题的混合。 &#34;&#34;&#34; ###2、你需要分析客服的解决方案占比。 客服通常处理结果： 1）开柜（********）； 2）升级客服（********）； 3）联系骑手/商家（********）； 4）赔付（********） 5）其他处理结果，你来概括。 &ldquo;********&ldquo;表示的是对应分类的定义。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://plutoxx8.github.io/blog/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "客诉AI解决方案设计思路分享",
+      "item": "https://plutoxx8.github.io/blog/posts/%E5%AE%A2%E8%AF%89ai%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF%E5%88%86%E4%BA%AB/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "客诉AI解决方案设计思路分享",
+  "name": "客诉AI解决方案设计思路分享",
+  "description": "一、前言 AI的快速发展及展现出来的爆炸效果，使得很多人都想把AI能力应用到项目中。目前行业上落地比较好的是Chatbot、工具、虚拟角色等。 3月国内外AI产品榜单（仅列出top10）：\n详细榜单可查看：3月全球AI产品排行榜\n客诉是人与人之间的沟通，基本是“用户”描述诉求，“客服”查询信息给予回复来解决问题，命中了chat的场景。而LLM对于信息查询、一定的推理都比较擅长，所以很多公司对使用LLM来降低客诉成本这件事寄予厚望，认为80% 的客服都可以通过LLM来替代。 引用一段内容来描述目前及未来的客诉+LLM演进方向是比较合适的。\nL1阶段： 纯坐席人工回复，即为前面所达的传统客服对话工作流。\nL2阶段： 以坐席人工回复为主，LLM回复作为辅，称为“话术推荐”。\nL3阶段： 以LLM回复为主，坐席在旁监督，必要时会“踩刹车”接管。\nL4阶段： LLM完全像人类一样能独立承接好用户的诉求，理想情况下技术能达到的终极目标\nL2阶段主要是给“客服”人员提效；\nL3阶段则是转换“客服”工作，变更为监督，因为LLM有幻觉，直接跟用户对话的话，生成内容不可控，对于客诉这种需要明确答案的场景比较致命，所以需要监管；\nL4阶段是随着LLM能力的发展，也许在某些场景幻觉可以消失，或者有控制幻觉的技术手段。 目前我们探索的方案属于L4阶段，尝试用LLM来代替部分人类。\n解决思路：\n短期：内化模型，减少模型与用户的交互，用户看到的只是前端解决方案页面，以此来简化用户操作流程及减少幻觉。 中长期：利用agent能力，通过感知周围环境信息去自主决策、执行，选择应该查询的信息或者规则生成内容回复给用户，解决用户问题。 短期方案应用在了外卖柜的客诉问题解决上，下面我会详细介绍这种方案的设计思路。\n二、框架 定位问题： 通过分析客诉数据来识别问题类型和占比，同时考虑ROI确定优先级。定位问题的方式很多，下面会详细介绍使用ChatGPT获取上述信息的方式。 概括场景： 概括场景的目的是通过已定位的问题，获取相关场景的解决方案、规则和知识库信息。理解各场景的特定需求和判断条件。 AI方案设计： 根据问题的定位和场景的概括，设计AI方案。包括每个场景具体的prompt和输入字段及输入字段规则，确保AI可以精确识别并应对各种客诉。 效果校验： 设计完成后，选取测试集来检验方案的实际表现。根据测试反馈进行调整，优化方案以提高识别和处理的准确性。 三、详细思路 （一）定位问题 通常在定位问题时，需要通过大量的客诉分析和听音来更全面地了解当前的“问题类型现状”和“客服处理结果现状”，从而减少客服概括错误或标注错误带来的影响。使用ChatGPT来分析数以万计的客诉可以显著节省时间；但分析完成后，还需进行人工复核以确保分析的准确性。\n首先，我们利用SQL筛选出需要分析的客诉类别，并提取出“反馈问题”及“处理结果”这两个关键数据字段。然后，将这些数据以Excel格式提供给ChatGPT，请求其进行详细分析。\n1、prompt模板\n1 2 \u0026#34;角色\u0026#34;+\u0026#34;擅长能力\u0026#34;+\u0026#34;背景介绍\u0026#34;+\u0026#34;你的诉求\u0026#34; ##分析要求及步骤 注：\nprompt中的“角色”设定是为了提升模型的互动质量和用户体验，让模型以设定的角色视角来回复。 “背景介绍”是为了告诉模型现在是什么情况，类似你要求别人做事情时候需要告诉别人背景，别人才能给出更符合你问题的回复。 “分析要求及步骤”是为了告诉ChatGPT，你需要怎么分析，具体需要“它”执行什么步骤，如果有明确的分析分类，甚至可以给出分类定义，会得到相对更高质量的回复。可以适当增加“示例”来告诉模型你想要的是什么样的分析。 “##”是分隔符，提高prompt的可读性。 prompt不是一步到位的，你需要跟模型有持续的互动，不停调整prompt来达到想要的效果。 2、prompt示例 以下是我在分析外卖柜客诉问题时的prompt，供参考。\n1 2 3 4 5 6 7 8 9 10 11 12 13 你是优秀的数据分析专家，善于利用各种手段来通过数据分析问题。 “取餐码错误 3.27”是一个关于外卖柜客诉的Excel，“工单问题”代表了这些客诉工单的类别；“反馈内容”代表了用户来电的事件概要；“处理结果”代表了客服对于这件事的处理结果。 你需要先进行解析，再进行分析、概括。 ##你需要分析以下内容 ###1、用户基本都在反馈什么事件？你来做总结概括，其中涉及到的数字的部分，需要经过你的一步一步计算，而不是随便给出，概括样式见示例。 示例：\u0026#34;\u0026#34;\u0026#34; 从反馈内容来看，用户基本上都在反馈关于无法开启具体地点的外卖柜、外卖柜离线或格口问题以及超时未取餐导致的锁定情况。 65%以上的客诉事件是在反映“无法开启具体地点的外卖柜”问题，针对这些内容的客服的处理结果通常是“核实格口空闲开柜”。 其中也有少部分的“离线”问题，这部分问题，客服处理结果90%以上是“升级TT”。 还有一部分是因为“格口锁定”问题所以无法开柜，这部分问题客服的处理结果绝大部分是“核实用户的取餐码后，联系运营，确认能否开柜”。 剩下一些是复合的客诉事件，包含了以上几种问题的混合。 \u0026#34;\u0026#34;\u0026#34; ###2、你需要分析客服的解决方案占比。 客服通常处理结果： 1）开柜（********）； 2）升级客服（********）； 3）联系骑手/商家（********）； 4）赔付（********） 5）其他处理结果，你来概括。 \u0026ldquo;********\u0026ldquo;表示的是对应分类的定义。",
+  "keywords": [
+    "AI应用"
+  ],
+  "articleBody": "一、前言 AI的快速发展及展现出来的爆炸效果，使得很多人都想把AI能力应用到项目中。目前行业上落地比较好的是Chatbot、工具、虚拟角色等。 3月国内外AI产品榜单（仅列出top10）：\n详细榜单可查看：3月全球AI产品排行榜\n客诉是人与人之间的沟通，基本是“用户”描述诉求，“客服”查询信息给予回复来解决问题，命中了chat的场景。而LLM对于信息查询、一定的推理都比较擅长，所以很多公司对使用LLM来降低客诉成本这件事寄予厚望，认为80% 的客服都可以通过LLM来替代。 引用一段内容来描述目前及未来的客诉+LLM演进方向是比较合适的。\nL1阶段： 纯坐席人工回复，即为前面所达的传统客服对话工作流。\nL2阶段： 以坐席人工回复为主，LLM回复作为辅，称为“话术推荐”。\nL3阶段： 以LLM回复为主，坐席在旁监督，必要时会“踩刹车”接管。\nL4阶段： LLM完全像人类一样能独立承接好用户的诉求，理想情况下技术能达到的终极目标\nL2阶段主要是给“客服”人员提效；\nL3阶段则是转换“客服”工作，变更为监督，因为LLM有幻觉，直接跟用户对话的话，生成内容不可控，对于客诉这种需要明确答案的场景比较致命，所以需要监管；\nL4阶段是随着LLM能力的发展，也许在某些场景幻觉可以消失，或者有控制幻觉的技术手段。 目前我们探索的方案属于L4阶段，尝试用LLM来代替部分人类。\n解决思路：\n短期：内化模型，减少模型与用户的交互，用户看到的只是前端解决方案页面，以此来简化用户操作流程及减少幻觉。 中长期：利用agent能力，通过感知周围环境信息去自主决策、执行，选择应该查询的信息或者规则生成内容回复给用户，解决用户问题。 短期方案应用在了外卖柜的客诉问题解决上，下面我会详细介绍这种方案的设计思路。\n二、框架 定位问题： 通过分析客诉数据来识别问题类型和占比，同时考虑ROI确定优先级。定位问题的方式很多，下面会详细介绍使用ChatGPT获取上述信息的方式。 概括场景： 概括场景的目的是通过已定位的问题，获取相关场景的解决方案、规则和知识库信息。理解各场景的特定需求和判断条件。 AI方案设计： 根据问题的定位和场景的概括，设计AI方案。包括每个场景具体的prompt和输入字段及输入字段规则，确保AI可以精确识别并应对各种客诉。 效果校验： 设计完成后，选取测试集来检验方案的实际表现。根据测试反馈进行调整，优化方案以提高识别和处理的准确性。 三、详细思路 （一）定位问题 通常在定位问题时，需要通过大量的客诉分析和听音来更全面地了解当前的“问题类型现状”和“客服处理结果现状”，从而减少客服概括错误或标注错误带来的影响。使用ChatGPT来分析数以万计的客诉可以显著节省时间；但分析完成后，还需进行人工复核以确保分析的准确性。\n首先，我们利用SQL筛选出需要分析的客诉类别，并提取出“反馈问题”及“处理结果”这两个关键数据字段。然后，将这些数据以Excel格式提供给ChatGPT，请求其进行详细分析。\n1、prompt模板\n1 2 \"角色\"+\"擅长能力\"+\"背景介绍\"+\"你的诉求\" ##分析要求及步骤 注：\nprompt中的“角色”设定是为了提升模型的互动质量和用户体验，让模型以设定的角色视角来回复。 “背景介绍”是为了告诉模型现在是什么情况，类似你要求别人做事情时候需要告诉别人背景，别人才能给出更符合你问题的回复。 “分析要求及步骤”是为了告诉ChatGPT，你需要怎么分析，具体需要“它”执行什么步骤，如果有明确的分析分类，甚至可以给出分类定义，会得到相对更高质量的回复。可以适当增加“示例”来告诉模型你想要的是什么样的分析。 “##”是分隔符，提高prompt的可读性。 prompt不是一步到位的，你需要跟模型有持续的互动，不停调整prompt来达到想要的效果。 2、prompt示例 以下是我在分析外卖柜客诉问题时的prompt，供参考。\n1 2 3 4 5 6 7 8 9 10 11 12 13 你是优秀的数据分析专家，善于利用各种手段来通过数据分析问题。 “取餐码错误 3.27”是一个关于外卖柜客诉的Excel，“工单问题”代表了这些客诉工单的类别；“反馈内容”代表了用户来电的事件概要；“处理结果”代表了客服对于这件事的处理结果。 你需要先进行解析，再进行分析、概括。 ##你需要分析以下内容 ###1、用户基本都在反馈什么事件？你来做总结概括，其中涉及到的数字的部分，需要经过你的一步一步计算，而不是随便给出，概括样式见示例。 示例：\"\"\" 从反馈内容来看，用户基本上都在反馈关于无法开启具体地点的外卖柜、外卖柜离线或格口问题以及超时未取餐导致的锁定情况。 65%以上的客诉事件是在反映“无法开启具体地点的外卖柜”问题，针对这些内容的客服的处理结果通常是“核实格口空闲开柜”。 其中也有少部分的“离线”问题，这部分问题，客服处理结果90%以上是“升级TT”。 还有一部分是因为“格口锁定”问题所以无法开柜，这部分问题客服的处理结果绝大部分是“核实用户的取餐码后，联系运营，确认能否开柜”。 剩下一些是复合的客诉事件，包含了以上几种问题的混合。 \"\"\" ###2、你需要分析客服的解决方案占比。 客服通常处理结果： 1）开柜（********）； 2）升级客服（********）； 3）联系骑手/商家（********）； 4）赔付（********） 5）其他处理结果，你来概括。 “********“表示的是对应分类的定义。\n3、结果展示 模型对于数据计算不会那么准确，文本过长则不会分析上下文，基本只会按照关键词来进行分析处理，所以不要完全相信模型给出的数字，只作为参考即可。 还需要结合听音等其他信息综合分析。\n（二）概括场景 通过还原用户场景，了解客服处理方案、SOP、规则等内容综合概括。 客服处理方案部分跟上面定位问题时使用的方式一致，在此就不展开了。\n（三）AI方案设计 设计方案时首先需要明确这个prompt为了解决什么问题（一般根据「定位问题」时可以明确具体问题占比，进一步分析问题场景）。\n以外卖柜客诉来举例，通过大量客诉及听音发现外卖柜客诉中的用户大部分是为了开柜取回自己的物品。 因此，一期的prompt设计旨在解决用户在特定场景下的开柜问题，然后我们需要思考什么场景什么条件可以开柜，并结合系统已有的信息进行校验，不需要用户额外输出过多内容。\n外卖柜中文prompt\n1 2 3 4 5 6 7 你是外卖柜专业客服人员，对于处理是否协助用户打开柜门的问题身经百战，针对每个问题都能一步一步推理给出妥善的解决方案。从不主观臆断，你深刻理解\"开柜规则判断标准\"，并可以针对不同规则组合快速响应，给出是否开柜或提供人工服务的解决方案。 目的：提供是否协助用户开启柜门的解决方案。 输出格式：不需要思考过程，只需要返回一个JSON对象，包含决策结果的键值对，键为'解决方案'。 --- ##开柜规则： xx 因信息保密以xx取代相关关键内容。\n外卖柜英文prompt\n1 2 3 4 5 6 You are a professional customer service representative for a food delivery locker service, skilled in determining whether to assist users with opening locker cells. Your approach to each issue is systematic, and you avoid making subjective judgments. You possess an in-depth understanding of the \"Locker Cell Opening Decision Criteria\" and are adept at quickly responding to various combinations of rules, making decisions about opening the locker cells or providing manual assistance. ## Purpose: xx ## Output Format:xx ## Locker Cell Opening Rules: xx 因信息保密以xx取代相关关键内容。\n这个prompt设计有几个核心要点：\n写完中文prompt时，需要再写个英文的prompt进行最终调用，有两个原因：第一，对于ChatGPT来说英文prompt回复质量更高；第二英文prompt的token更少，费用更低。外卖柜这个prompt的版本来回一次调用仅花费0.1元。 需要定义对应的输入字段，结合输入字段传入最终判断结果。 在进行prompt设计时，需要明确大模型输出格式。因为我们的目标是输出解决方案并指引用户到对应的前端解决页面，所以不需要生成大段的回复内容。 为了提高prompt的回复质量可以使用一些prompt技巧，如CoT、Reflection等，下面“扩展”的部分会讲到。 （四）效果校验 prompt设计完成后需要进行校验，判断一定量级的真实场景下，模型是否还能做出准确的判断。如果不可以，需要再对prompt进行定向调优。\n1、准备工作\n1）选定测试集：从prompt要解决的各个开柜场景都选取一些客诉内容。\n2）场景构建：输入的条件其实就是场景，所以我采用的方式是又写了一个prompt，根据外卖柜客诉的ASR内容生成对应字段，还原真实场景。\n3）测试集人工标注：需要找客服/你自己针对你要测试的客诉内容进行标注，比如外卖柜这条客诉的原本处理结果是“开柜”还是“联系骑手”等。\n2、校验\n调用gpt接口，使用开柜prompt和“准备工作”生成的场景进行客诉处理结果生成。\n再使用生成结果与“准备工作”的人工标注进行结果比对，来判断准确率，结合不准确的场景再进行定向调整。\n四、总结 看完以后你肯定认为if/else的逻辑也能写出来啊，为什么非要用AI？\n首先，解决问题的手段很多，AI只是其中之一，但如果AI能快速验证场景及收益，那先用AI验证未尝不可。\n其次，AI的扩展性更好，如果要新增场景只需要对prompt做相关更改即可覆盖。\n最后，这种判断方式一定要跟前端做结合，我们通常遇到的客诉基本都是出来一个list让你选，外卖柜也不例外，做这件事的初衷也是希望可以直接用AI定位用户的问题引导到指定的解决方案，减少用户的选择，真实的提高用户体验。\n五、最后 以及可以从我之前写的文章里看看相关的prompt写作技巧： prompt写作技巧\n祝大家做强大力量的掌控者🫴\n",
+  "wordCount" : "222",
+  "inLanguage": "en",
+  "datePublished": "2024-04-11T00:00:00Z",
+  "dateModified": "2024-04-11T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Plutoxx8"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://plutoxx8.github.io/blog/posts/%E5%AE%A2%E8%AF%89ai%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF%E5%88%86%E4%BA%AB/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Plutoxx8",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://plutoxx8.github.io/blog/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://plutoxx8.github.io/blog/" accesskey="h" title="Plutoxx8&#39;s Blog (Alt + H)">
+                <img src="https://plutoxx8.github.io/blog/apple-touch-icon.png" alt="" aria-label="logo"
+                    height="35">Plutoxx8&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://plutoxx8.github.io/blog/archives" title="📥 Archive">
+                    <span>📥 Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://plutoxx8.github.io/blog/search/" title="🔍 Search">
+                    <span>🔍 Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://plutoxx8.github.io/blog/tags/" title="🏷️ Tags">
+                    <span>🏷️ Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://plutoxx8.github.io/blog/">Home</a>&nbsp;»&nbsp;<a href="https://plutoxx8.github.io/blog/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      客诉AI解决方案设计思路分享
+    </h1>
+    <div class="post-meta"><span title='2024-04-11 00:00:00 +0000 UTC'>April 11, 2024</span>&nbsp;·&nbsp;Plutoxx8<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <span id="busuanzi_container_page_pv">
+          &nbsp;| 访问: <span id="busuanzi_value_page_pv"></span>
+      </span>
+
+</div>
+  </header> <div class="toc">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e4%b8%80%e5%89%8d%e8%a8%80" aria-label="一、前言">一、前言</a></li>
+                <li>
+                    <a href="#%e4%ba%8c%e6%a1%86%e6%9e%b6" aria-label="二、框架">二、框架</a></li>
+                <li>
+                    <a href="#%e4%b8%89%e8%af%a6%e7%bb%86%e6%80%9d%e8%b7%af" aria-label="三、详细思路">三、详细思路</a><ul>
+                        
+                <li>
+                    <a href="#%e4%b8%80%e5%ae%9a%e4%bd%8d%e9%97%ae%e9%a2%98" aria-label="（一）定位问题">（一）定位问题</a></li>
+                <li>
+                    <a href="#%e4%ba%8c%e6%a6%82%e6%8b%ac%e5%9c%ba%e6%99%af" aria-label="（二）概括场景">（二）概括场景</a></li>
+                <li>
+                    <a href="#%e4%b8%89ai%e6%96%b9%e6%a1%88%e8%ae%be%e8%ae%a1" aria-label="（三）AI方案设计">（三）AI方案设计</a></li>
+                <li>
+                    <a href="#%e5%9b%9b%e6%95%88%e6%9e%9c%e6%a0%a1%e9%aa%8c" aria-label="（四）效果校验">（四）效果校验</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e5%9b%9b%e6%80%bb%e7%bb%93" aria-label="四、总结">四、总结</a></li>
+                <li>
+                    <a href="#%e4%ba%94%e6%9c%80%e5%90%8e" aria-label="五、最后">五、最后</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h1 id="一前言">一、前言<a hidden class="anchor" aria-hidden="true" href="#一前言">#</a></h1>
+<p>AI的快速发展及展现出来的爆炸效果，使得很多人都想把AI能力应用到项目中。目前行业上落地比较好的是Chatbot、工具、虚拟角色等。
+3月国内外AI产品榜单（仅列出top10）：</p>
+<p><img loading="lazy" src="https://blogpicxx8.oss-cn-shanghai.aliyuncs.com/%E6%8E%92%E8%A1%8C%E6%A6%9C%E5%8D%95.jpg" alt="排行榜单"  />
+
+详细榜单可查看：<a href="https://dnipkggqxh.feishu.cn/wiki/J0NMwIIPqipbBhkcz7Ycz7jpnBg">3月全球AI产品排行榜</a></p>
+<p>客诉是人与人之间的沟通，基本是“用户”描述诉求，“客服”查询信息给予回复来解决问题，命中了chat的场景。而LLM对于信息查询、一定的推理都比较擅长，所以很多公司对使用LLM来降低客诉成本这件事寄予厚望，认为<strong>80%</strong> 的客服都可以通过LLM来替代。
+引用一段内容来描述目前及未来的客诉+LLM演进方向是比较合适的。</p>
+<blockquote>
+<p><strong>L1阶段：</strong> 纯坐席人工回复，即为前面所达的传统客服对话工作流。<br>
+<strong>L2阶段：</strong> 以坐席人工回复为主，LLM回复作为辅，称为“话术推荐”。<br>
+<strong>L3阶段：</strong> 以LLM回复为主，坐席在旁监督，必要时会“踩刹车”接管。<br>
+<strong>L4阶段：</strong> LLM完全像人类一样能独立承接好用户的诉求，理想情况下技术能达到的终极目标</p>
+</blockquote>
+<p>L2阶段主要是给“客服”人员提效；<br>
+L3阶段则是转换“客服”工作，变更为监督，因为LLM有幻觉，直接跟用户对话的话，生成内容不可控，对于客诉这种需要明确答案的场景比较致命，所以需要监管；<br>
+L4阶段是随着LLM能力的发展，也许在某些场景幻觉可以消失，或者有控制幻觉的技术手段。
+目前我们探索的方案属于L4阶段，尝试用LLM来代替部分人类。</p>
+<p>解决思路：</p>
+<ul>
+<li>短期：内化模型，减少模型与用户的交互，用户看到的只是前端解决方案页面，以此来简化用户操作流程及减少幻觉。</li>
+<li>中长期：利用agent能力，通过感知周围环境信息去自主决策、执行，选择应该查询的信息或者规则生成内容回复给用户，解决用户问题。</li>
+</ul>
+<p>短期方案应用在了外卖柜的客诉问题解决上，下面我会详细介绍这种方案的设计思路。</p>
+<h1 id="二框架">二、框架<a hidden class="anchor" aria-hidden="true" href="#二框架">#</a></h1>
+<p><img loading="lazy" src="https://blogpicxx8.oss-cn-shanghai.aliyuncs.com/%E6%A1%86%E6%9E%B6" alt="框架"  />
+</p>
+<ul>
+<li><strong>定位问题：</strong> 通过分析客诉数据来识别问题类型和占比，同时考虑ROI确定优先级。定位问题的方式很多，下面会详细介绍使用ChatGPT获取上述信息的方式。</li>
+<li><strong>概括场景：</strong> 概括场景的目的是通过已定位的问题，获取相关场景的解决方案、规则和知识库信息。理解各场景的特定需求和判断条件。</li>
+<li><strong>AI方案设计：</strong> 根据问题的定位和场景的概括，设计AI方案。包括每个场景具体的prompt和输入字段及输入字段规则，确保AI可以精确识别并应对各种客诉。</li>
+<li><strong>效果校验：</strong> 设计完成后，选取测试集来检验方案的实际表现。根据测试反馈进行调整，优化方案以提高识别和处理的准确性。</li>
+</ul>
+<h1 id="三详细思路">三、详细思路<a hidden class="anchor" aria-hidden="true" href="#三详细思路">#</a></h1>
+<h2 id="一定位问题">（一）定位问题<a hidden class="anchor" aria-hidden="true" href="#一定位问题">#</a></h2>
+<p>通常在定位问题时，需要通过大量的客诉分析和听音来更全面地了解当前的“问题类型现状”和“客服处理结果现状”，从而减少客服概括错误或标注错误带来的影响。使用ChatGPT来分析数以万计的客诉可以显著节省时间；但分析完成后，<strong>还需进行人工复核以确保分析的准确性</strong>。<br>
+首先，我们利用SQL筛选出需要分析的客诉类别，并提取出“反馈问题”及“处理结果”这两个关键数据字段。然后，将这些数据以Excel格式提供给ChatGPT，请求其进行详细分析。</p>
+<p><strong>1、prompt模板</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&#34;角色&#34;+&#34;擅长能力&#34;+&#34;背景介绍&#34;+&#34;你的诉求&#34;
+</span></span><span class="line"><span class="cl">##分析要求及步骤
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>注：</p>
+<ul>
+<li>prompt中的“角色”设定是为了提升模型的互动质量和用户体验，让模型以设定的角色视角来回复。</li>
+<li>“背景介绍”是为了告诉模型现在是什么情况，类似你要求别人做事情时候需要告诉别人背景，别人才能给出更符合你问题的回复。</li>
+<li>“分析要求及步骤”是为了告诉ChatGPT，你需要怎么分析，具体需要“它”执行什么步骤，如果有明确的分析分类，甚至可以给出分类定义，会得到相对更高质量的回复。可以适当增加“示例”来告诉模型你想要的是什么样的分析。</li>
+<li>“##”是分隔符，提高prompt的可读性。</li>
+<li><strong>prompt不是一步到位的，你需要跟模型有持续的互动，不停调整prompt来达到想要的效果。</strong></li>
+</ul>
+<p><strong>2、prompt示例</strong>
+以下是我在分析外卖柜客诉问题时的prompt，供参考。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">你是优秀的数据分析专家，善于利用各种手段来通过数据分析问题。
+</span></span><span class="line"><span class="cl">“取餐码错误 3.27”是一个关于外卖柜客诉的Excel，“工单问题”代表了这些客诉工单的类别；“反馈内容”代表了用户来电的事件概要；“处理结果”代表了客服对于这件事的处理结果。
+</span></span><span class="line"><span class="cl">你需要先进行解析，再进行分析、概括。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">##你需要分析以下内容
+</span></span><span class="line"><span class="cl">###1、用户基本都在反馈什么事件？你来做总结概括，其中涉及到的数字的部分，需要经过你的一步一步计算，而不是随便给出，概括样式见示例。 
+</span></span><span class="line"><span class="cl">示例：&#34;&#34;&#34; 从反馈内容来看，用户基本上都在反馈关于无法开启具体地点的外卖柜、外卖柜离线或格口问题以及超时未取餐导致的锁定情况。 65%以上的客诉事件是在反映“无法开启具体地点的外卖柜”问题，针对这些内容的客服的处理结果通常是“核实格口空闲开柜”。 其中也有少部分的“离线”问题，这部分问题，客服处理结果90%以上是“升级TT”。 还有一部分是因为“格口锁定”问题所以无法开柜，这部分问题客服的处理结果绝大部分是“核实用户的取餐码后，联系运营，确认能否开柜”。 剩下一些是复合的客诉事件，包含了以上几种问题的混合。 &#34;&#34;&#34; 
+</span></span><span class="line"><span class="cl">###2、你需要分析客服的解决方案占比。 客服通常处理结果：
+</span></span><span class="line"><span class="cl">1）开柜（********）；
+</span></span><span class="line"><span class="cl">2）升级客服（********）；
+</span></span><span class="line"><span class="cl">3）联系骑手/商家（********）； 
+</span></span><span class="line"><span class="cl">4）赔付（********） 
+</span></span><span class="line"><span class="cl">5）其他处理结果，你来概括。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>&ldquo;********&ldquo;表示的是对应分类的定义。</p>
+<p><strong>3、结果展示</strong>
+模型对于数据计算不会那么准确，文本过长则不会分析上下文，基本只会按照关键词来进行分析处理，所以<strong>不要完全相信模型给出的数字，只作为参考即可。</strong> 还需要结合听音等其他信息综合分析。</p>
+<p><img loading="lazy" src="https://blogpicxx8.oss-cn-shanghai.aliyuncs.com/%E7%BB%93%E6%9E%9C%E5%B1%95%E7%A4%BA.jpg" alt="输出结果"  />
+</p>
+<h2 id="二概括场景">（二）概括场景<a hidden class="anchor" aria-hidden="true" href="#二概括场景">#</a></h2>
+<p>通过还原用户场景，了解客服处理方案、SOP、规则等内容综合概括。
+客服处理方案部分跟上面定位问题时使用的方式一致，在此就不展开了。</p>
+<h2 id="三ai方案设计">（三）AI方案设计<a hidden class="anchor" aria-hidden="true" href="#三ai方案设计">#</a></h2>
+<p>设计方案时首先需要明确这个prompt为了解决什么问题（一般根据「定位问题」时可以明确具体问题占比，进一步分析问题场景）。<br>
+以外卖柜客诉来举例，通过大量客诉及听音发现外卖柜客诉中的用户大部分是为了开柜取回自己的物品。
+因此，一期的prompt设计旨在解决用户在特定场景下的开柜问题，然后我们需要思考什么场景什么条件可以开柜，并结合系统已有的信息进行校验，不需要用户额外输出过多内容。</p>
+<p><strong>外卖柜中文prompt</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">你是外卖柜专业客服人员，对于处理是否协助用户打开柜门的问题身经百战，针对每个问题都能一步一步推理给出妥善的解决方案。从不主观臆断，你深刻理解&#34;开柜规则判断标准&#34;，并可以针对不同规则组合快速响应，给出是否开柜或提供人工服务的解决方案。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">目的：提供是否协助用户开启柜门的解决方案。
+</span></span><span class="line"><span class="cl">输出格式：不需要思考过程，只需要返回一个JSON对象，包含决策结果的键值对，键为&#39;解决方案&#39;。
+</span></span><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl">##开柜规则：
+</span></span><span class="line"><span class="cl">xx
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>因信息保密以xx取代相关关键内容。</p>
+<p><strong>外卖柜英文prompt</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">You</span> <span class="n">are</span> <span class="n">a</span> <span class="n">professional</span> <span class="n">customer</span> <span class="n">service</span> <span class="n">representative</span> <span class="k">for</span> <span class="n">a</span> <span class="n">food</span> <span class="n">delivery</span> <span class="n">locker</span> <span class="n">service</span><span class="p">,</span> <span class="n">skilled</span> <span class="ow">in</span> <span class="n">determining</span> <span class="n">whether</span> <span class="n">to</span> <span class="n">assist</span> <span class="n">users</span> <span class="n">with</span> <span class="n">opening</span> <span class="n">locker</span> <span class="n">cells</span><span class="o">.</span> <span class="n">Your</span> <span class="n">approach</span> <span class="n">to</span> <span class="n">each</span> <span class="n">issue</span> <span class="n">is</span> <span class="n">systematic</span><span class="p">,</span> <span class="ow">and</span> <span class="n">you</span> <span class="n">avoid</span> <span class="n">making</span> <span class="n">subjective</span> <span class="n">judgments</span><span class="o">.</span> <span class="n">You</span> <span class="n">possess</span> <span class="n">an</span> <span class="ow">in</span><span class="o">-</span><span class="n">depth</span> <span class="n">understanding</span> <span class="n">of</span> <span class="n">the</span> <span class="s2">&#34;Locker Cell Opening Decision Criteria&#34;</span> <span class="ow">and</span> <span class="n">are</span> <span class="n">adept</span> <span class="n">at</span> <span class="n">quickly</span> <span class="n">responding</span> <span class="n">to</span> <span class="n">various</span> <span class="n">combinations</span> <span class="n">of</span> <span class="n">rules</span><span class="p">,</span> <span class="n">making</span> <span class="n">decisions</span> <span class="n">about</span> <span class="n">opening</span> <span class="n">the</span> <span class="n">locker</span> <span class="n">cells</span> <span class="ow">or</span> <span class="n">providing</span> <span class="n">manual</span> <span class="n">assistance</span><span class="o">.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## Purpose: xx </span>
+</span></span><span class="line"><span class="cl"><span class="c1">## Output Format:xx</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## Locker Cell Opening Rules:  </span>
+</span></span><span class="line"><span class="cl"><span class="n">xx</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>因信息保密以xx取代相关关键内容。</p>
+<p>这个prompt设计有几个核心要点：</p>
+<ul>
+<li>写完中文prompt时，需要再写个英文的prompt进行最终调用，有两个原因：第一，对于ChatGPT来说英文prompt回复质量更高；第二英文prompt的token更少，费用更低。外卖柜这个prompt的版本来回一次调用仅花费0.1元。</li>
+<li>需要定义对应的输入字段，结合输入字段传入最终判断结果。</li>
+<li>在进行prompt设计时，需要明确大模型输出格式。因为我们的目标是输出解决方案并指引用户到对应的前端解决页面，所以不需要生成大段的回复内容。</li>
+<li>为了提高prompt的回复质量可以使用一些prompt技巧，如CoT、Reflection等，下面“扩展”的部分会讲到。</li>
+</ul>
+<h2 id="四效果校验">（四）效果校验<a hidden class="anchor" aria-hidden="true" href="#四效果校验">#</a></h2>
+<p>prompt设计完成后需要进行校验，判断一定量级的真实场景下，模型是否还能做出准确的判断。如果不可以，需要再对prompt进行定向调优。</p>
+<p><strong>1、准备工作</strong><br>
+1）选定测试集：从prompt要解决的各个开柜场景都选取一些客诉内容。<br>
+2）场景构建：输入的条件其实就是场景，所以我采用的方式是又写了一个prompt，根据外卖柜客诉的ASR内容生成对应字段，还原真实场景。<br>
+3）测试集人工标注：需要找客服/你自己针对你要测试的客诉内容进行标注，比如外卖柜这条客诉的原本处理结果是“开柜”还是“联系骑手”等。</p>
+<p><strong>2、校验</strong><br>
+调用gpt接口，使用开柜prompt和“准备工作”生成的场景进行客诉处理结果生成。<br>
+再使用生成结果与“准备工作”的人工标注进行结果比对，来判断准确率，结合不准确的场景再进行定向调整。</p>
+<h1 id="四总结">四、总结<a hidden class="anchor" aria-hidden="true" href="#四总结">#</a></h1>
+<p>看完以后你肯定认为if/else的逻辑也能写出来啊，为什么非要用AI？</p>
+<p>首先，解决问题的手段很多，AI只是其中之一，但如果AI能快速验证场景及收益，那先用AI验证未尝不可。<br>
+其次，AI的扩展性更好，如果要新增场景只需要对prompt做相关更改即可覆盖。<br>
+最后，这种判断方式一定要跟前端做结合，我们通常遇到的客诉基本都是出来一个list让你选，外卖柜也不例外，做这件事的初衷也是希望可以直接用AI定位用户的问题引导到指定的解决方案，减少用户的选择，真实的提高用户体验。</p>
+<h1 id="五最后">五、最后<a hidden class="anchor" aria-hidden="true" href="#五最后">#</a></h1>
+<p>以及可以从我之前写的文章里看看相关的prompt写作技巧：
+<a href="https://plutoxx8.github.io/blog/posts/prompt%E5%86%99%E4%BD%9C%E6%8A%80%E5%B7%A7">prompt写作技巧</a></p>
+<p>祝大家做强大力量的掌控者🫴</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://plutoxx8.github.io/blog/tags/ai%E5%BA%94%E7%94%A8/">AI应用</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://plutoxx8.github.io/blog/posts/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%92%8C%E4%BC%98%E5%8C%96prompt/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>如何设计、优化prompt</span>
+  </a>
+  <a class="next" href="https://plutoxx8.github.io/blog/posts/prompt%E5%86%99%E4%BD%9C%E6%8A%80%E5%B7%A7/">
+    <span class="title">Next »</span>
+    <br>
+    <span>prompt写作技巧</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://plutoxx8.github.io/blog/">Plutoxx8</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
+>>>>>>> 94ecd10 (update)

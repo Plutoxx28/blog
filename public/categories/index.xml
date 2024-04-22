@@ -7,12 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Sun, 21 Apr 2024 00:00:00 +0000</lastBuildDate>
+<<<<<<< HEAD
     <atom:link href="http://localhost:1313/blog/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>AI</title>
       <link>http://localhost:1313/blog/categories/ai/</link>
       <pubDate>Sun, 21 Apr 2024 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/blog/categories/ai/</guid>
+=======
+    <atom:link href="https://plutoxx8.github.io/blog/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI</title>
+      <link>https://plutoxx8.github.io/blog/categories/ai/</link>
+      <pubDate>Sun, 21 Apr 2024 00:00:00 +0000</pubDate>
+      <guid>https://plutoxx8.github.io/blog/categories/ai/</guid>
+>>>>>>> 94ecd10 (update)
       <description></description>
     </item>
   </channel>

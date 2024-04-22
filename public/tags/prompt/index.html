@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Posts | Plutoxx8</title>
+<title>prompt | Plutoxx8</title>
 <meta name="keywords" content="">
-<meta name="description" content="Posts - Plutoxx8">
+<meta name="description" content="">
 <meta name="author" content="Plutoxx8">
-<link rel="canonical" href="https://plutoxx8.github.io/blog/posts/">
+<link rel="canonical" href="https://plutoxx8.github.io/blog/tags/prompt/">
 <link crossorigin="anonymous" href="/blog/assets/css/stylesheet.b609c58d5c11bb90b1a54e04005d74ad1ddf22165eb79f5533967e57df9c3b50.css" integrity="sha256-tgnFjVwRu5CxpU4EAF10rR3fIhZet59VM5Z&#43;V9&#43;cO1A=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://plutoxx8.github.io/blog/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://plutoxx8.github.io/blog/favicon-16x16.png">
@@ -18,7 +18,7 @@
 <link rel="mask-icon" href="https://plutoxx8.github.io/blog/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://plutoxx8.github.io/blog/posts/index.xml">
+<link rel="alternate" type="application/rss+xml" href="https://plutoxx8.github.io/blog/tags/prompt/index.xml">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,30 +55,15 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Posts" />
+</noscript><meta property="og:title" content="prompt" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://plutoxx8.github.io/blog/posts/" />
+<meta property="og:url" content="https://plutoxx8.github.io/blog/tags/prompt/" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Posts"/>
+<meta name="twitter:title" content="prompt"/>
 <meta name="twitter:description" content=""/>
 
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://plutoxx8.github.io/blog/posts/"
-    }
-  ]
-}
-</script>
 </head>
 
 <body class="list" id="top">
@@ -142,10 +127,10 @@
     </nav>
 </header>
 <main class="main"> 
-<header class="page-header"><div class="breadcrumbs"><a href="https://plutoxx8.github.io/blog/">Home</a></div>
+<header class="page-header"><div class="breadcrumbs"><a href="https://plutoxx8.github.io/blog/">Home</a>&nbsp;»&nbsp;<a href="https://plutoxx8.github.io/blog/tags/">Tags</a></div>
   <h1>
-    Posts
-    <a href="/blog/posts/index.xml" title="RSS" aria-label="RSS">
+    prompt
+    <a href="/blog/tags/prompt/index.xml" title="RSS" aria-label="RSS">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
         stroke-linecap="round" stroke-linejoin="round" height="23">
         <path d="M4 11a9 9 0 0 1 9 9" />
@@ -156,26 +141,7 @@
   </h1>
 </header>
 
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Reflection整理与思考
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>最近看了吴恩达老师分享的Agent的设计模式，思考发现Reflection不止可以用在代码层面，在prompt上也可以有很好的应用。
-视频链接：What’s next for AI agentic workflows ft. Andrew Ng of AI Fund
-Reflection是一种使AI能够自我审视和分析其决策过程与行为表现的技术，让agent通过回顾自己的行为和接收的反馈，识别决策和知识的不足，进而调整和优化，以期在未来任务中表现得更好。
-一、框架 Actor接收环境的状态信息，结合短期记忆（轨迹）生成初步的内容或动作。通过内部反馈和外部反馈并结合自我反思机制进行反思，过程中利用长期记忆（经验）优化生成的的内容或动作。
-组成部分：
-Actor：根据观察到的状态输出必要的文本和动作。 Evaluator（评估器）：是核心模块，负责检验Actor创建的输出品质。评估器通过分析生成的结果，并基于任务的具体情境计算出一个奖励分数来评价这些结果的表现。 internal feedback：是与既定目标或标准进行比较得出的，目的是让模型能够在没有外部输入的情况下自我调整和优化。 External feedback：非Evaluator输出，来自真实世界的应用反馈、用户互动、专家评审或其他机器学习系统的输出。 Self-reflection：结合评估标准、内部反馈（过去的教训）、外部反馈（应用反馈/专家评审等）生成对于初始内容或动作的反思。 Memory：“轨迹历史”作为短期记忆，而自我反思模型的输出则被保存为长期记忆。这两种记忆类型的结合为agent提供了即具体又包含多次尝试中学习到的教训的上下文。 记忆： 当检索内容过多时，长期记忆可以帮助agent快速定位&amp;检索。
-二、细节 步骤：
-Actor通过与环境的交互生成一系列行动轨迹 τ0。 评估器根据这些行动输出一个得分 r0，此得分通过公式 rt = Me(τ0) 计算得出，代表了该尝试的效果，其值会随着对应任务表现的提升而增加。 完成初次尝试后，为了把这个得分 r0 转化为 LLM 可以利用来进行改进的具体反馈，自我反思模型分析这对 {τ0, r0}，并总结出一个摘要 sr0，随后将其保存在记忆库中。这个摘要 srt 提供了针对该次尝试的直接经验反馈。 Actor、Evaluator以及Self-reflection模型协同工作，通过重复的尝试循环不断优化，直至评估器判断最新的轨迹 τt 达到预期的正确性。 根据反馈生成优化后的内容或行为。 三、结论 可以看到基模型在使用self-refine后对于不同工作的性能大幅提升。 使用reflexion技术后，各种模型在HotPotQA数据集上的首次通过准确率均有所提高。 四、示例 4.1 Decision-making Environment: You are in the middle of a room. Looking quickly around you, you see a bed 1, a desk 2, a desk 1, a drawer 6, a drawer 5, a drawer 4, a drawer 3, a drawer 2, a drawer 1, a garbagecan 1, a laundryhamper 1, a safe 1, a shelf 6, a shelf 5, a shelf 4, a shelf 3, a shelf 2, and a shelf 1....</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-04-21 00:00:00 +0000 UTC'>April 21, 2024</span>&nbsp;·&nbsp;Plutoxx8</footer>
-  <a class="entry-link" aria-label="post link to Reflection整理与思考" href="https://plutoxx8.github.io/blog/posts/reflection%E6%80%9D%E8%80%83/"></a>
-</article>
-
-<article class="post-entry"> 
+<article class="post-entry tag-entry"> 
   <header class="entry-header">
     <h2 class="entry-hint-parent">如何设计、优化prompt
     </h2>
@@ -204,36 +170,7 @@ b、明确制定完成任务所需要的步骤
   <a class="entry-link" aria-label="post link to 如何设计、优化prompt" href="https://plutoxx8.github.io/blog/posts/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%92%8C%E4%BC%98%E5%8C%96prompt/"></a>
 </article>
 
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">客诉AI解决方案设计思路分享
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>一、前言 AI的快速发展及展现出来的爆炸效果，使得很多人都想把AI能力应用到项目中。目前行业上落地比较好的是Chatbot、工具、虚拟角色等。 3月国内外AI产品榜单（仅列出top10）：
-详细榜单可查看：3月全球AI产品排行榜
-客诉是人与人之间的沟通，基本是“用户”描述诉求，“客服”查询信息给予回复来解决问题，命中了chat的场景。而LLM对于信息查询、一定的推理都比较擅长，所以很多公司对使用LLM来降低客诉成本这件事寄予厚望，认为80% 的客服都可以通过LLM来替代。 引用一段内容来描述目前及未来的客诉&#43;LLM演进方向是比较合适的。
-L1阶段： 纯坐席人工回复，即为前面所达的传统客服对话工作流。
-L2阶段： 以坐席人工回复为主，LLM回复作为辅，称为“话术推荐”。
-L3阶段： 以LLM回复为主，坐席在旁监督，必要时会“踩刹车”接管。
-L4阶段： LLM完全像人类一样能独立承接好用户的诉求，理想情况下技术能达到的终极目标
-L2阶段主要是给“客服”人员提效；
-L3阶段则是转换“客服”工作，变更为监督，因为LLM有幻觉，直接跟用户对话的话，生成内容不可控，对于客诉这种需要明确答案的场景比较致命，所以需要监管；
-L4阶段是随着LLM能力的发展，也许在某些场景幻觉可以消失，或者有控制幻觉的技术手段。 目前我们探索的方案属于L4阶段，尝试用LLM来代替部分人类。
-解决思路：
-短期：内化模型，减少模型与用户的交互，用户看到的只是前端解决方案页面，以此来简化用户操作流程及减少幻觉。 中长期：利用agent能力，通过感知周围环境信息去自主决策、执行，选择应该查询的信息或者规则生成内容回复给用户，解决用户问题。 短期方案应用在了外卖柜的客诉问题解决上，下面我会详细介绍这种方案的设计思路。
-二、框架 定位问题： 通过分析客诉数据来识别问题类型和占比，同时考虑ROI确定优先级。定位问题的方式很多，下面会详细介绍使用ChatGPT获取上述信息的方式。 概括场景： 概括场景的目的是通过已定位的问题，获取相关场景的解决方案、规则和知识库信息。理解各场景的特定需求和判断条件。 AI方案设计： 根据问题的定位和场景的概括，设计AI方案。包括每个场景具体的prompt和输入字段及输入字段规则，确保AI可以精确识别并应对各种客诉。 效果校验： 设计完成后，选取测试集来检验方案的实际表现。根据测试反馈进行调整，优化方案以提高识别和处理的准确性。 三、详细思路 （一）定位问题 通常在定位问题时，需要通过大量的客诉分析和听音来更全面地了解当前的“问题类型现状”和“客服处理结果现状”，从而减少客服概括错误或标注错误带来的影响。使用ChatGPT来分析数以万计的客诉可以显著节省时间；但分析完成后，还需进行人工复核以确保分析的准确性。
-首先，我们利用SQL筛选出需要分析的客诉类别，并提取出“反馈问题”及“处理结果”这两个关键数据字段。然后，将这些数据以Excel格式提供给ChatGPT，请求其进行详细分析。
-1、prompt模板
-1 2 &#34;角色&#34;&#43;&#34;擅长能力&#34;&#43;&#34;背景介绍&#34;&#43;&#34;你的诉求&#34; ##分析要求及步骤 注：
-prompt中的“角色”设定是为了提升模型的互动质量和用户体验，让模型以设定的角色视角来回复。 “背景介绍”是为了告诉模型现在是什么情况，类似你要求别人做事情时候需要告诉别人背景，别人才能给出更符合你问题的回复。 “分析要求及步骤”是为了告诉ChatGPT，你需要怎么分析，具体需要“它”执行什么步骤，如果有明确的分析分类，甚至可以给出分类定义，会得到相对更高质量的回复。可以适当增加“示例”来告诉模型你想要的是什么样的分析。 “##”是分隔符，提高prompt的可读性。 prompt不是一步到位的，你需要跟模型有持续的互动，不停调整prompt来达到想要的效果。 2、prompt示例 以下是我在分析外卖柜客诉问题时的prompt，供参考。
-1 2 3 4 5 6 7 8 9 10 11 12 13 你是优秀的数据分析专家，善于利用各种手段来通过数据分析问题。 “取餐码错误 3.27”是一个关于外卖柜客诉的Excel，“工单问题”代表了这些客诉工单的类别；“反馈内容”代表了用户来电的事件概要；“处理结果”代表了客服对于这件事的处理结果。 你需要先进行解析，再进行分析、概括。 ##你需要分析以下内容 ###1、用户基本都在反馈什么事件？你来做总结概括，其中涉及到的数字的部分，需要经过你的一步一步计算，而不是随便给出，概括样式见示例。 示例：&#34;&#34;&#34; 从反馈内容来看，用户基本上都在反馈关于无法开启具体地点的外卖柜、外卖柜离线或格口问题以及超时未取餐导致的锁定情况。 65%以上的客诉事件是在反映“无法开启具体地点的外卖柜”问题，针对这些内容的客服的处理结果通常是“核实格口空闲开柜”。 其中也有少部分的“离线”问题，这部分问题，客服处理结果90%以上是“升级TT”。 还有一部分是因为“格口锁定”问题所以无法开柜，这部分问题客服的处理结果绝大部分是“核实用户的取餐码后，联系运营，确认能否开柜”。 剩下一些是复合的客诉事件，包含了以上几种问题的混合。 &#34;&#34;&#34; ###2、你需要分析客服的解决方案占比。 客服通常处理结果： 1）开柜（********）； 2）升级客服（********）； 3）联系骑手/商家（********）； 4）赔付（********） 5）其他处理结果，你来概括。 “********“表示的是对应分类的定义。...</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-04-11 00:00:00 +0000 UTC'>April 11, 2024</span>&nbsp;·&nbsp;Plutoxx8</footer>
-  <a class="entry-link" aria-label="post link to 客诉AI解决方案设计思路分享" href="https://plutoxx8.github.io/blog/posts/%E5%AE%A2%E8%AF%89ai%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF%E5%88%86%E4%BA%AB/"></a>
-</article>
-
-<article class="post-entry"> 
+<article class="post-entry tag-entry"> 
   <header class="entry-header">
     <h2 class="entry-hint-parent">prompt写作技巧
     </h2>
