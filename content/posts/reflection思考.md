@@ -104,7 +104,7 @@ You pick up the mug 1 from the desk 1.<mark>
 You turn on the desklamp 1.  
 Status: Success
 
-*通过反思trial1，trial2就直接从desk1开始了*
+<font color = "#FA541C">通过反思trial1，trial2就直接从desk1开始了。</font>
 # 五、标准参考
 reflection中的标准很重要，定义好标准后，才能进行有效的反思。
 ## 5.1 Acronym Generation（首字母缩写生成）
@@ -148,14 +148,14 @@ Scores:
 * Total score: 17/30
 
 # 六、应用
-可以仅通过prompt来实现reflection。
-下面是个翻译的prompt：  
+可以仅通过prompt来实现reflection。下面是个翻译的prompt：
+
 分三步进行翻译工作，并打印每步的结果：
 1. 根据英文内容直译，保持原有格式，不要遗漏任何信息
 2. 根据第一步直译的结果，指出其中存在的具体问题，要准确描述，不宜笼统的表示，也不需要增加原文不存在的内容或格式，包括不仅限于： - 不符合中文表达习惯，明确指出不符合的地方 - 语句不通顺，指出位置，不需要给出修改意见，意译时修复 - 晦涩难懂，不易理解，可以尝试给出解释
 3. 根据第一步直译的结果和第二步指出的问题，重新进行意译，保证内容的原意的基础上，使其更易于理解，更符合中文的表达习惯，同时保持原有的格式不变
 
-**步骤2的部分就是Reflection，在prompt中标明Reflection标准，在第三步应用反思内容进行优化。**
+<font color = "#FA541C">步骤2的部分就是Reflection，在prompt中标明Reflection标准，在第三步应用反思内容进行优化。</font>
 
 # 七、附录
 相关论文：

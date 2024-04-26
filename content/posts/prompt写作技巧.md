@@ -97,6 +97,7 @@ Self Correction是指让模型反思自己的回答，并从批判性的角度�
 
 ![[一个示例模板]](https://blogpicxx8.oss-cn-shanghai.aliyuncs.com/prompt%E7%A4%BA%E4%BE%8B.png)
 **内容：**
+
 一般包含以下部分
 - Role (角色) 
 - Profile（角色简介）
@@ -107,6 +108,7 @@ Self Correction是指让模型反思自己的回答，并从批判性的角度�
 - ...
 
 **示例：** 
+
 下面这个是摘自dify的结构话prompt示例，可以参考。
 ```
 ## Role: Travel Consultant 
