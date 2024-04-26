@@ -223,6 +223,8 @@ gpts的prompt：<https://github.com/linexjlin/GPTs/tree/main>
 
 流程：提出需求 → AI生成初步prompt → 与AI协作进行调整 → 测试并评估效果 → 根据反馈继续优化 → 得到最终版本。
 
+或者你直接写出prompt，与AI写作调整。
+
 有一个调优的case，非常值得学习：[与Claude一起优化prompt](https://twitter.com/genie0309/status/1773019152049144212)
 
 ### 2、甩手掌柜式优化
