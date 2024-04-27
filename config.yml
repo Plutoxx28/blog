@@ -12,7 +12,10 @@ buildDrafts: false
 buildFuture: false
 buildExpired: false
 
-# googleAnalytics: UA-123-45 #google统计
+services:  
+  googleAnalytics:
+    ID: "G-BQKYE8NV7S"
+    #google统计
 
 paginate: 15 #每页显示的文章数
 
