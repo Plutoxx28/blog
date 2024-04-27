@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Plutoxx8</title>
-    <link>https://plutoxx8.github.io/blog/</link>
+    <link>http://localhost:1313/blog/</link>
     <description>Recent content on Plutoxx8</description>
-    <generator>Hugo -- 0.122.0</generator>
+    <generator>Hugo -- 0.125.4</generator>
     <language>en</language>
     <lastBuildDate>Sun, 21 Apr 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://plutoxx8.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Reflection整理与思考</title>
-      <link>https://plutoxx8.github.io/blog/posts/reflection%E6%80%9D%E8%80%83/</link>
+      <link>http://localhost:1313/blog/posts/reflection%E6%80%9D%E8%80%83/</link>
       <pubDate>Sun, 21 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>https://plutoxx8.github.io/blog/posts/reflection%E6%80%9D%E8%80%83/</guid>
+      <guid>http://localhost:1313/blog/posts/reflection%E6%80%9D%E8%80%83/</guid>
       <description>最近看了吴恩达老师分享的Agent的设计模式，思考发现Reflection不止可以用在代码层面，在prompt上也可以有很好的应用。
 视频链接：What&amp;rsquo;s next for AI agentic workflows ft. Andrew Ng of AI Fund
 Reflection是一种使AI能够自我审视和分析其决策过程与行为表现的技术，让agent通过回顾自己的行为和接收的反馈，识别决策和知识的不足，进而调整和优化，以期在未来任务中表现得更好。
@@ -24,9 +24,9 @@ Actor通过与环境的交互生成一系列行动轨迹 τ0。 评估器根据�
     </item>
     <item>
       <title>如何设计、优化prompt</title>
-      <link>https://plutoxx8.github.io/blog/posts/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%92%8C%E4%BC%98%E5%8C%96prompt/</link>
+      <link>http://localhost:1313/blog/posts/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%92%8C%E4%BC%98%E5%8C%96prompt/</link>
       <pubDate>Thu, 18 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>https://plutoxx8.github.io/blog/posts/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%92%8C%E4%BC%98%E5%8C%96prompt/</guid>
+      <guid>http://localhost:1313/blog/posts/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%92%8C%E4%BC%98%E5%8C%96prompt/</guid>
       <description>一、了解prompt：掌握AI交互的🔑 （一）prompt的定义 Prompt是一个指令或问题，用于告知AI所需执行的任务或所需信息。这类似于在搜索引擎中输入关键词以获取信息，是与AI对话的一种方式。
 （二）prompt的作用 Prompt的主要作用是指导AI的行为和响应。通过准确描述需求，prompt使AI能更好地理解用户意图，并据此生成相应的输出，从而提高AI处理问题的效率和准确性。
 （三）如何创建有效的prompt 有效的Prompt应当是清晰且具体的，详细描述需求。这可能需要通过实践和尝试来确定，以发现最能引导AI产生理想响应的词汇和结构。
@@ -48,12 +48,13 @@ b、明确制定完成任务所需要的步骤
     </item>
     <item>
       <title>客诉AI解决方案设计思路分享</title>
-      <link>https://plutoxx8.github.io/blog/posts/%E5%AE%A2%E8%AF%89ai%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF%E5%88%86%E4%BA%AB/</link>
+      <link>http://localhost:1313/blog/posts/%E5%AE%A2%E8%AF%89ai%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF%E5%88%86%E4%BA%AB/</link>
       <pubDate>Thu, 11 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>https://plutoxx8.github.io/blog/posts/%E5%AE%A2%E8%AF%89ai%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF%E5%88%86%E4%BA%AB/</guid>
+      <guid>http://localhost:1313/blog/posts/%E5%AE%A2%E8%AF%89ai%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF%E5%88%86%E4%BA%AB/</guid>
       <description>一、前言 AI的快速发展及展现出来的爆炸效果，使得很多人都想把AI能力应用到项目中。目前行业上落地比较好的是Chatbot、工具、虚拟角色等。 3月国内外AI产品榜单（仅列出top10）：
 详细榜单可查看：3月全球AI产品排行榜
-客诉是人与人之间的沟通，基本是“用户”描述诉求，“客服”查询信息给予回复来解决问题，命中了chat的场景。而LLM对于信息查询、一定的推理都比较擅长，所以很多公司对使用LLM来降低客诉成本这件事寄予厚望，认为80% 的客服都可以通过LLM来替代。 引用一段内容来描述目前及未来的客诉+LLM演进方向是比较合适的。
+客诉是人与人之间的沟通，基本是“用户”描述诉求，“客服”查询信息给予回复来解决问题，命中了chat的场景。而LLM对于信息查询、一定的推理都比较擅长，所以很多公司对使用LLM来降低客诉成本这件事寄予厚望，认为80% 的客服都可以通过LLM来替代。
+引用一段内容来描述目前及未来的客诉+LLM演进方向是比较合适的。
 L1阶段： 纯坐席人工回复，即为前面所达的传统客服对话工作流。
 L2阶段： 以坐席人工回复为主，LLM回复作为辅，称为“话术推荐”。
 L3阶段： 以LLM回复为主，坐席在旁监督，必要时会“踩刹车”接管。
@@ -63,18 +64,22 @@ L3阶段则是转换“客服”工作，变更为监督，因为LLM有幻觉，
 L4阶段是随着LLM能力的发展，也许在某些场景幻觉可以消失，或者有控制幻觉的技术手段。 目前我们探索的方案属于L4阶段，尝试用LLM来代替部分人类。
 解决思路：
 短期：内化模型，减少模型与用户的交互，用户看到的只是前端解决方案页面，以此来简化用户操作流程及减少幻觉。 中长期：利用agent能力，通过感知周围环境信息去自主决策、执行，选择应该查询的信息或者规则生成内容回复给用户，解决用户问题。 短期方案应用在了外卖柜的客诉问题解决上，下面我会详细介绍这种方案的设计思路。
-二、框架 定位问题： 通过分析客诉数据来识别问题类型和占比，同时考虑ROI确定优先级。定位问题的方式很多，下面会详细介绍使用ChatGPT获取上述信息的方式。 概括场景： 概括场景的目的是通过已定位的问题，获取相关场景的解决方案、规则和知识库信息。理解各场景的特定需求和判断条件。 AI方案设计： 根据问题的定位和场景的概括，设计AI方案。包括每个场景具体的prompt和输入字段及输入字段规则，确保AI可以精确识别并应对各种客诉。 效果校验： 设计完成后，选取测试集来检验方案的实际表现。根据测试反馈进行调整，优化方案以提高识别和处理的准确性。 三、详细思路 （一）定位问题 通常在定位问题时，需要通过大量的客诉分析和听音来更全面地了解当前的“问题类型现状”和“客服处理结果现状”，从而减少客服概括错误或标注错误带来的影响。使用ChatGPT来分析数以万计的客诉可以显著节省时间；但分析完成后，还需进行人工复核以确保分析的准确性。
+二、框架 定位问题： 通过分析客诉数据来识别问题类型和占比，同时考虑ROI确定优先级。定位问题的方式很多，下面会详细介绍使用ChatGPT获取上述信息的方式。
+概括场景： 概括场景的目的是通过已定位的问题，获取相关场景的解决方案、规则和知识库信息。理解各场景的特定需求和判断条件。
+AI方案设计： 根据问题的定位和场景的概括，设计AI方案。包括每个场景具体的prompt和输入字段及输入字段规则，确保AI可以精确识别并应对各种客诉。
+效果校验： 设计完成后，选取测试集来检验方案的实际表现。根据测试反馈进行调整，优化方案以提高识别和处理的准确性。
+三、详细思路 （一）定位问题 通常在定位问题时，需要通过大量的客诉分析和听音来更全面地了解当前的“问题类型现状”和“客服处理结果现状”，从而减少客服概括错误或标注错误带来的影响。使用ChatGPT来分析数以万计的客诉可以显著节省时间。但分析完成后，还需进行人工复核以确保分析的准确性。
 首先，我们利用SQL筛选出需要分析的客诉类别，并提取出“反馈问题”及“处理结果”这两个关键数据字段。然后，将这些数据以Excel格式提供给ChatGPT，请求其进行详细分析。
 1、prompt模板
-1 2 &amp;#34;角色&amp;#34;+&amp;#34;擅长能力&amp;#34;+&amp;#34;背景介绍&amp;#34;+&amp;#34;你的诉求&amp;#34; ##分析要求及步骤 注：
+1 2 3 &amp;#34;角色&amp;#34;+&amp;#34;擅长能力&amp;#34;+&amp;#34;背景介绍&amp;#34;+&amp;#34;你的诉求&amp;#34; ##分析要求及步骤 注：
 prompt中的“角色”设定是为了提升模型的互动质量和用户体验，让模型以设定的角色视角来回复。 “背景介绍”是为了告诉模型现在是什么情况，类似你要求别人做事情时候需要告诉别人背景，别人才能给出更符合你问题的回复。 “分析要求及步骤”是为了告诉ChatGPT，你需要怎么分析，具体需要“它”执行什么步骤，如果有明确的分析分类，甚至可以给出分类定义，会得到相对更高质量的回复。可以适当增加“示例”来告诉模型你想要的是什么样的分析。 “##”是分隔符，提高prompt的可读性。 prompt不是一步到位的，你需要跟模型有持续的互动，不停调整prompt来达到想要的效果。 2、prompt示例 以下是我在分析外卖柜客诉问题时的prompt，供参考。
 1 2 3 4 5 6 7 8 9 10 11 12 13 你是优秀的数据分析专家，善于利用各种手段来通过数据分析问题。 “取餐码错误 3.27”是一个关于外卖柜客诉的Excel，“工单问题”代表了这些客诉工单的类别；“反馈内容”代表了用户来电的事件概要；“处理结果”代表了客服对于这件事的处理结果。 你需要先进行解析，再进行分析、概括。 ##你需要分析以下内容 ###1、用户基本都在反馈什么事件？你来做总结概括，其中涉及到的数字的部分，需要经过你的一步一步计算，而不是随便给出，概括样式见示例。 示例：&amp;#34;&amp;#34;&amp;#34; 从反馈内容来看，用户基本上都在反馈关于无法开启具体地点的外卖柜、外卖柜离线或格口问题以及超时未取餐导致的锁定情况。 65%以上的客诉事件是在反映“无法开启具体地点的外卖柜”问题，针对这些内容的客服的处理结果通常是“核实格口空闲开柜”。 其中也有少部分的“离线”问题，这部分问题，客服处理结果90%以上是“升级TT”。 还有一部分是因为“格口锁定”问题所以无法开柜，这部分问题客服的处理结果绝大部分是“核实用户的取餐码后，联系运营，确认能否开柜”。 剩下一些是复合的客诉事件，包含了以上几种问题的混合。 &amp;#34;&amp;#34;&amp;#34; ###2、你需要分析客服的解决方案占比。 客服通常处理结果： 1）开柜（********）； 2）升级客服（********）； 3）联系骑手/商家（********）； 4）赔付（********） 5）其他处理结果，你来概括。 &amp;ldquo;********&amp;ldquo;表示的是对应分类的定义。</description>
     </item>
     <item>
       <title>prompt写作技巧</title>
-      <link>https://plutoxx8.github.io/blog/posts/prompt%E5%86%99%E4%BD%9C%E6%8A%80%E5%B7%A7/</link>
+      <link>http://localhost:1313/blog/posts/prompt%E5%86%99%E4%BD%9C%E6%8A%80%E5%B7%A7/</link>
       <pubDate>Fri, 23 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>https://plutoxx8.github.io/blog/posts/prompt%E5%86%99%E4%BD%9C%E6%8A%80%E5%B7%A7/</guid>
+      <guid>http://localhost:1313/blog/posts/prompt%E5%86%99%E4%BD%9C%E6%8A%80%E5%B7%A7/</guid>
       <description>一、prompt高级技巧 除了官方prompt的基本写作规则，还有一些额外的技巧。
 1、CoT - 先规划再行动 技巧： CoT策略，是通过在提示中展示解决问题的思考过程，帮助模型理解如何逐步解决问题。
 CoT prompting：

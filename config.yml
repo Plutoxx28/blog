@@ -12,11 +12,6 @@ buildDrafts: false
 buildFuture: false
 buildExpired: false
 
-services:  
-  googleAnalytics:
-    ID: "G-BQKYE8NV7S"
-    #google统计
-
 paginate: 15 #每页显示的文章数
 
 permalinks: #浏览器链接显示方式
@@ -107,9 +102,9 @@ params:
     icon: "apple-touch-icon.png"
     iconHeight: 35
 
-  # analytics:
-  #     google:
-  #         SiteVerificationTag: "XYZabc"
+  services:  
+    googleAnalytics:
+      ID: "G-BQKYE8NV7S"
 
   assets:
     favicon: "favicon.ico"

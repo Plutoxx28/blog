@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>prompt on Plutoxx8</title>
-    <link>https://plutoxx8.github.io/blog/tags/prompt/</link>
-    <description>Recent content in prompt on Plutoxx8</description>
-    <generator>Hugo -- 0.122.0</generator>
+    <title>Prompt on Plutoxx8</title>
+    <link>http://localhost:1313/blog/tags/prompt/</link>
+    <description>Recent content in Prompt on Plutoxx8</description>
+    <generator>Hugo -- 0.125.4</generator>
     <language>en</language>
     <lastBuildDate>Thu, 18 Apr 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://plutoxx8.github.io/blog/tags/prompt/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/blog/tags/prompt/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>如何设计、优化prompt</title>
-      <link>https://plutoxx8.github.io/blog/posts/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%92%8C%E4%BC%98%E5%8C%96prompt/</link>
+      <link>http://localhost:1313/blog/posts/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%92%8C%E4%BC%98%E5%8C%96prompt/</link>
       <pubDate>Thu, 18 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>https://plutoxx8.github.io/blog/posts/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%92%8C%E4%BC%98%E5%8C%96prompt/</guid>
+      <guid>http://localhost:1313/blog/posts/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%92%8C%E4%BC%98%E5%8C%96prompt/</guid>
       <description>一、了解prompt：掌握AI交互的🔑 （一）prompt的定义 Prompt是一个指令或问题，用于告知AI所需执行的任务或所需信息。这类似于在搜索引擎中输入关键词以获取信息，是与AI对话的一种方式。
 （二）prompt的作用 Prompt的主要作用是指导AI的行为和响应。通过准确描述需求，prompt使AI能更好地理解用户意图，并据此生成相应的输出，从而提高AI处理问题的效率和准确性。
 （三）如何创建有效的prompt 有效的Prompt应当是清晰且具体的，详细描述需求。这可能需要通过实践和尝试来确定，以发现最能引导AI产生理想响应的词汇和结构。
@@ -34,9 +34,9 @@ b、明确制定完成任务所需要的步骤
     </item>
     <item>
       <title>prompt写作技巧</title>
-      <link>https://plutoxx8.github.io/blog/posts/prompt%E5%86%99%E4%BD%9C%E6%8A%80%E5%B7%A7/</link>
+      <link>http://localhost:1313/blog/posts/prompt%E5%86%99%E4%BD%9C%E6%8A%80%E5%B7%A7/</link>
       <pubDate>Fri, 23 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>https://plutoxx8.github.io/blog/posts/prompt%E5%86%99%E4%BD%9C%E6%8A%80%E5%B7%A7/</guid>
+      <guid>http://localhost:1313/blog/posts/prompt%E5%86%99%E4%BD%9C%E6%8A%80%E5%B7%A7/</guid>
       <description>一、prompt高级技巧 除了官方prompt的基本写作规则，还有一些额外的技巧。
 1、CoT - 先规划再行动 技巧： CoT策略，是通过在提示中展示解决问题的思考过程，帮助模型理解如何逐步解决问题。
 CoT prompting：

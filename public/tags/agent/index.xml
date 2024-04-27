@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Agent on Plutoxx8</title>
-    <link>https://plutoxx8.github.io/blog/tags/agent/</link>
+    <link>http://localhost:1313/blog/tags/agent/</link>
     <description>Recent content in Agent on Plutoxx8</description>
-    <generator>Hugo -- 0.122.0</generator>
+    <generator>Hugo -- 0.125.4</generator>
     <language>en</language>
     <lastBuildDate>Sun, 21 Apr 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://plutoxx8.github.io/blog/tags/agent/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/blog/tags/agent/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Reflection整理与思考</title>
-      <link>https://plutoxx8.github.io/blog/posts/reflection%E6%80%9D%E8%80%83/</link>
+      <link>http://localhost:1313/blog/posts/reflection%E6%80%9D%E8%80%83/</link>
       <pubDate>Sun, 21 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>https://plutoxx8.github.io/blog/posts/reflection%E6%80%9D%E8%80%83/</guid>
+      <guid>http://localhost:1313/blog/posts/reflection%E6%80%9D%E8%80%83/</guid>
       <description>最近看了吴恩达老师分享的Agent的设计模式，思考发现Reflection不止可以用在代码层面，在prompt上也可以有很好的应用。
 视频链接：What&amp;rsquo;s next for AI agentic workflows ft. Andrew Ng of AI Fund
 Reflection是一种使AI能够自我审视和分析其决策过程与行为表现的技术，让agent通过回顾自己的行为和接收的反馈，识别决策和知识的不足，进而调整和优化，以期在未来任务中表现得更好。
