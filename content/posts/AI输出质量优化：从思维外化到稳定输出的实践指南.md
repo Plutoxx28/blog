@@ -1,13 +1,13 @@
 ---
 title: "AI输出质量优化：从思维外化到稳定输出的实践指南" #标题
-date: "2024-02-23" #创建时间
+date: "2024-12-03" #创建时间
 author: ["Plutoxx8"] #作者
 categories: 
 - AI
 tags: 
 - prompt
 description: "" #文章描述
-weight: 1 # 输入1可以顶置文章，用来给文章展示排序，不填就默认按时间排序
+weight:  # 输入1可以顶置文章，用来给文章展示排序，不填就默认按时间排序
 slug: "" #seo使用，示例：http://example.com/ultimate-guide-making-perfect-pasta
 draft: false # 是否为草稿
 comments: true #是否展示评论
