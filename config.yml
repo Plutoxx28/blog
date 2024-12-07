@@ -110,8 +110,13 @@ params:
     favicon: "favicon.ico"
     favicon16x16: "favicon-16x16.png"
     favicon32x32: "favicon-32x32.png"
+    favicon96x96: "favicon-96x96.png"
+    faviconSVG: "favicon.svg"
     apple_touch_icon: "apple-touch-icon.png"
-    safari_pinned_tab: "safari-pinned-tab.svg"
+    manifest: "site.webmanifest"
+    apple_mobile_web_app_title: "MyWebSite"  # 可选，默认使用 site.Title
+    theme_color: "#2e2e33"  # 可选
+    msapplication_TileColor: "#2e2e33"  # 可选
 
 
   # cover:
