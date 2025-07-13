@@ -12,7 +12,8 @@ buildDrafts: false
 buildFuture: false
 buildExpired: false
 
-paginate: 15 #每页显示的文章数
+pagination:
+  pagerSize: 15 #每页显示的文章数
 
 permalinks: #浏览器链接显示方式
   post: "/:title/"
@@ -166,5 +167,5 @@ markup:
 services:
   instagram:
     disableInlineCSS: true
-  twitter:
+  x:
     disableInlineCSS: true
