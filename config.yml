@@ -1,7 +1,7 @@
 # If your site is in 'https', then make sure your base url isn't written using 'http' otherwise your sitemap would
 # contain http (as opposeed to https) URLs. This would affect Google indexing of your URLs.
-baseURL: "https://plutoxx8.github.io/blog/"
-title: Plutoxx8
+baseURL: "https://Plutoxx28.github.io/"
+title: Plutoxx28
 theme: [PaperMod] #主题名字
 
 enableInlineShortcodes: true #允许内联短码
