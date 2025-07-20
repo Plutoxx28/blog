@@ -1,7 +1,7 @@
 ---
 title: "如何设计、优化prompt" #标题
 date: "2024-04-18" #创建时间
-author: ["Plutoxx8"] #作者
+author: ["Plutoxx28"] #作者
 categories: 
 - AI
 tags: 

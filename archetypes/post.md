@@ -1,7 +1,7 @@
 ---
 title: "google" #标题
 date: "2024-02-03" #创建时间
-author: ["Plutoxx8"] #作者
+author: ["Plutoxx28"] #作者
 categories: 
 - 科技
 tags: 

@@ -1,7 +1,7 @@
 ---
 title: "客诉AI解决方案设计思路分享" #标题
 date: "2024-04-11" #创建时间
-author: ["Plutoxx8"] #作者
+author: ["Plutoxx28"] #作者
 categories: 
 - AI
 tags: 
@@ -160,8 +160,8 @@ prompt设计完成后需要进行校验，判断一定量级的真实场景下�
 # 五、最后
 以及可以从我之前写的文章里看看相关的prompt写作技巧：
 
-[prompt写作技巧](https://plutoxx8.github.io/blog/posts/prompt%E5%86%99%E4%BD%9C%E6%8A%80%E5%B7%A7)
+[prompt写作技巧](https://plutoxx28.github.io/blog/posts/prompt%E5%86%99%E4%BD%9C%E6%8A%80%E5%B7%A7)
 
-[如何设计和优化prompt](https://plutoxx8.github.io/blog/posts/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%92%8C%E4%BC%98%E5%8C%96prompt/)
+[如何设计和优化prompt](https://plutoxx28.github.io/blog/posts/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%92%8C%E4%BC%98%E5%8C%96prompt/)
 
 祝大家做强大力量的掌控者🫴

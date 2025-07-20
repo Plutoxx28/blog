@@ -1,7 +1,7 @@
 ---
 title: "Reflection整理与思考" #标题
 date: "2024-04-21" #创建时间
-author: ["Plutoxx8"] #作者
+author: ["Plutoxx28"] #作者
 categories: 
 - AI
 tags: 

@@ -1,7 +1,7 @@
 ---
 title: "prompt写作技巧" #标题
 date: "2024-02-23" #创建时间
-author: ["Plutoxx8"] #作者
+author: ["Plutoxx28"] #作者
 categories: 
 - AI
 tags: 

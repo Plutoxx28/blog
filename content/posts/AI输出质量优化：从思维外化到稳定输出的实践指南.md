@@ -1,7 +1,7 @@
 ---
 title: "AI输出质量优化：从思维外化到稳定输出的实践指南" #标题
 date: "2024-12-03" #创建时间
-author: ["Plutoxx8"] #作者
+author: ["Plutoxx28"] #作者
 categories: 
 - AI
 tags: 
