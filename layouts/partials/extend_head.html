@@ -12,4 +12,565 @@
 .first-entry.home-info .entry-header h1 {
     margin-bottom: 12px;
 }
-</style> 
+
+/* 字体和字号优化 */
+body {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", 
+                 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+/* 标题字号调整 */
+.post-title {
+    font-size: 36px;
+    font-weight: 700;
+}
+
+.post-content h1 {
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.post-content h2 {
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.post-content h3 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.post-content h4 {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.post-content h5 {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.post-content h6 {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* 正文段落优化 */
+.post-content p {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 1.2em;
+}
+
+/* 列表字体 */
+.post-content ul,
+.post-content ol {
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.post-content li {
+    margin-bottom: 0.3em;
+}
+
+/* 代码字体优化 */
+.post-content code {
+    font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Liberation Mono", monospace;
+    font-size: 0.85em;
+    font-weight: 500;
+}
+
+.post-content pre code {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* 引用块字体 */
+.post-content blockquote {
+    font-size: 16px;
+    line-height: 1.7;
+    font-style: italic;
+}
+
+/* 表格字体 */
+.post-content table {
+    font-size: 15px;
+}
+
+.post-content table th {
+    font-weight: 600;
+}
+
+/* 元信息字体 */
+.post-meta {
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* 面包屑字体 */
+.breadcrumbs {
+    font-size: 14px;
+}
+
+/* 标签字体 */
+.post-tags a {
+    font-size: 13px;
+}
+
+/* 浮动式TOC样式 - 遵循PaperMod主题变量 */
+
+/* 控制TOC显示逻辑 */
+/* 大屏幕：隐藏原有TOC，显示浮动TOC */
+@media screen and (min-width: 1200px) {
+    .toc:not(.floating-toc) {
+        display: none !important;
+    }
+}
+
+/* 小屏幕：隐藏浮动TOC，显示原有TOC */
+@media screen and (max-width: 1199px) {
+    .floating-toc {
+        display: none !important;
+    }
+}
+
+/* 浮动TOC容器 */
+.floating-toc {
+    position: fixed;
+    top: 50%;
+    left: 2rem;
+    transform: translateY(-50%);
+    width: 280px;
+    max-height: 70vh;
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+}
+
+.floating-toc.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.floating-toc.collapsed .floating-toc-content {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.2s ease, opacity 0.15s ease;
+}
+
+.floating-toc-content {
+    transition: max-height 0.2s ease, opacity 0.15s ease;
+}
+
+/* 浮动TOC标题栏 */
+.floating-toc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--theme);
+    border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.floating-toc-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin: 0;
+}
+
+.floating-toc-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+    color: var(--secondary);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.floating-toc-toggle:hover {
+    background: var(--theme);
+    color: var(--primary);
+}
+
+.floating-toc.collapsed .floating-toc-toggle svg {
+    transform: rotate(-90deg);
+    transition: transform 0.15s ease;
+}
+
+.floating-toc-toggle svg {
+    transition: transform 0.15s ease;
+}
+
+/* 阅读进度条 */
+.floating-toc-progress {
+    height: 3px;
+    background: var(--border);
+    position: relative;
+    overflow: hidden;
+}
+
+.floating-toc-progress-bar {
+    height: 100%;
+    background: var(--primary);
+    width: 0%;
+    transition: width 0.1s ease;
+}
+
+/* 浮动TOC内容区域 */
+.floating-toc-content {
+    max-height: calc(70vh - 60px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+}
+
+.floating-toc-content::-webkit-scrollbar {
+    width: 4px;
+}
+
+.floating-toc-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.floating-toc-content::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 2px;
+}
+
+.floating-toc-content::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary);
+}
+
+/* 浮动TOC导航样式 */
+.floating-toc-nav {
+    padding: 1rem;
+}
+
+.floating-toc-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.floating-toc-nav li {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.floating-toc-nav a {
+    display: block;
+    padding: 0.4rem 0.75rem;
+    text-decoration: none;
+    color: var(--secondary);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    font-size: 0.85rem;
+    border-left: 3px solid transparent;
+    position: relative;
+}
+
+.floating-toc-nav a:hover {
+    background: var(--theme);
+    color: var(--primary);
+    border-left-color: var(--primary);
+}
+
+.floating-toc-nav a.active {
+    background: var(--theme);
+    color: var(--primary);
+    border-left-color: var(--primary);
+    font-weight: 500;
+}
+
+/* 层级缩进 */
+.floating-toc-nav ul ul {
+    margin-left: 1rem;
+}
+
+.floating-toc-nav ul ul a {
+    font-size: 0.8rem;
+    opacity: 0.9;
+}
+
+.floating-toc-nav ul ul ul {
+    margin-left: 1rem;
+}
+
+.floating-toc-nav ul ul ul a {
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+/* 响应式适配 */
+
+/* 大屏幕 - 显示浮动TOC */
+@media screen and (min-width: 1400px) {
+    .floating-toc {
+        display: block;
+        width: 280px;
+        left: 2rem;
+    }
+}
+
+/* 中等屏幕 - 调整位置和尺寸 */
+@media screen and (max-width: 1399px) and (min-width: 1200px) {
+    .floating-toc {
+        display: block;
+        width: 240px;
+        left: 1rem;
+    }
+}
+
+/* 暗色主题适配 */
+.dark .floating-toc {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* 文章内容区域检测时的显示优化 */
+.article-content {
+    position: relative;
+}
+
+.floating-toc.auto-hide {
+    opacity: 0.4;
+    transition: opacity 0.2s ease;
+}
+
+.floating-toc.auto-hide:hover {
+    opacity: 1;
+}
+
+/* 打印时隐藏 */
+@media print {
+    .floating-toc {
+        display: none !important;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const floatingToc = document.getElementById('floating-toc');
+    const tocToggle = document.getElementById('floating-toc-toggle');
+    const tocContent = document.getElementById('floating-toc-content');
+    const progressBar = document.getElementById('reading-progress');
+    
+    if (!floatingToc) return;
+    
+    // 检测是否应该显示浮动TOC
+    function shouldShowFloatingToc() {
+        return window.innerWidth >= 1200 && document.querySelector('.post-content');
+    }
+    
+    // 初始化浮动TOC
+    function initFloatingToc() {
+        if (!shouldShowFloatingToc()) return;
+        
+        // 确保TOC内容与当前页面匹配
+        const standardToc = document.querySelector('.toc:not(.floating-toc)');
+        const floatingTocNav = document.querySelector('.floating-toc-nav');
+        
+        if (standardToc && floatingTocNav) {
+            const standardTocContent = standardToc.querySelector('.inner');
+            if (standardTocContent) {
+                floatingTocNav.innerHTML = standardTocContent.innerHTML;
+            }
+        }
+        
+        // 延迟显示，避免页面加载时的闪现
+        setTimeout(() => {
+            floatingToc.classList.add('visible');
+        }, 300);
+        
+        // 检测文章内容是否足够长
+        const article = document.querySelector('.post-content');
+        if (article && article.scrollHeight > window.innerHeight * 1.5) {
+            floatingToc.classList.add('visible');
+        }
+    }
+    
+    // TOC 折叠/展开功能
+    if (tocToggle) {
+        tocToggle.addEventListener('click', function() {
+            floatingToc.classList.toggle('collapsed');
+            
+            // 保存状态到localStorage
+            const isCollapsed = floatingToc.classList.contains('collapsed');
+            localStorage.setItem('floating-toc-collapsed', isCollapsed.toString());
+        });
+        
+        // 恢复之前的折叠状态
+        const savedState = localStorage.getItem('floating-toc-collapsed');
+        if (savedState === 'true') {
+            floatingToc.classList.add('collapsed');
+        }
+    }
+    
+    // 阅读进度更新
+    function updateReadingProgress() {
+        const article = document.querySelector('.post-content');
+        if (!article || !progressBar) return;
+        
+        const scrollTop = window.pageYOffset;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / docHeight) * 100;
+        
+        progressBar.style.width = Math.min(100, Math.max(0, scrollPercent)) + '%';
+    }
+    
+    // TOC链接高亮和平滑滚动
+    function setupTocInteractions() {
+        const headings = document.querySelectorAll('.post-content h1, .post-content h2, .post-content h3, .post-content h4, .post-content h5, .post-content h6');
+        const tocLinks = floatingToc.querySelectorAll('.floating-toc-nav a');
+        
+        
+        // 平滑滚动
+        tocLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    const offset = 80; // 顶部偏移
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - offset;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // 滚动高亮
+        function highlightCurrentSection() {
+            let current = '';
+            const scrollPosition = window.scrollY + 100;
+            
+            headings.forEach(heading => {
+                const sectionTop = heading.offsetTop;
+                if (scrollPosition >= sectionTop) {
+                    current = heading.id;
+                }
+            });
+            
+            // 更新活跃状态
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (current && link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                    
+                    // 确保活跃项在可视区域
+                    const tocContentEl = document.getElementById('floating-toc-content');
+                    if (tocContentEl && !floatingToc.classList.contains('collapsed')) {
+                        const linkTop = link.offsetTop;
+                        const linkBottom = linkTop + link.offsetHeight;
+                        const containerTop = tocContentEl.scrollTop;
+                        const containerBottom = containerTop + tocContentEl.offsetHeight;
+                        
+                        if (linkTop < containerTop) {
+                            tocContentEl.scrollTop = linkTop - 20;
+                        } else if (linkBottom > containerBottom) {
+                            tocContentEl.scrollTop = linkBottom - tocContentEl.offsetHeight + 20;
+                        }
+                    }
+                }
+            });
+        }
+        
+        // 节流函数
+        function throttle(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+        
+        // 绑定滚动事件
+        window.addEventListener('scroll', throttle(() => {
+            updateReadingProgress();
+            highlightCurrentSection();
+        }, 100));
+        
+        // 初始化
+        updateReadingProgress();
+        highlightCurrentSection();
+    }
+    
+    // 自动隐藏逻辑
+    function setupAutoHide() {
+        let hideTimeout;
+        let isHovered = false;
+        
+        function showToc() {
+            floatingToc.classList.remove('auto-hide');
+            clearTimeout(hideTimeout);
+        }
+        
+        function hideToc() {
+            if (!isHovered && !floatingToc.classList.contains('collapsed')) {
+                floatingToc.classList.add('auto-hide');
+            }
+        }
+        
+        // 鼠标悬停事件
+        floatingToc.addEventListener('mouseenter', () => {
+            isHovered = true;
+            showToc();
+        });
+        
+        floatingToc.addEventListener('mouseleave', () => {
+            isHovered = false;
+            hideTimeout = setTimeout(hideToc, 1500);
+        });
+        
+        // 滚动时显示
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            showToc();
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(hideToc, 2000);
+        });
+    }
+    
+    // 响应式处理
+    function handleResize() {
+        if (shouldShowFloatingToc()) {
+            initFloatingToc();
+        } else {
+            floatingToc.classList.remove('visible');
+        }
+    }
+    
+    // 初始化
+    if (shouldShowFloatingToc()) {
+        initFloatingToc();
+        setupTocInteractions();
+        setupAutoHide();
+    }
+    
+    // 监听窗口大小变化
+    window.addEventListener('resize', throttle(handleResize, 150));
+});
+</script>

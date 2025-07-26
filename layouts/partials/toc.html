@@ -1,0 +1,37 @@
+{{- $headers := findRE "<h[1-6].*?>(.|\n])+?</h[1-6]>" .Content -}}
+{{- $has_headers := ge (len $headers) 1 -}}
+{{- if $has_headers -}}
+
+<!-- 原有样式的TOC (小屏幕使用) -->
+<div class="toc">
+    <details {{if (.Param "TocOpen") }} open{{ end }}>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">{{- i18n "toc" | default "Table of Contents" }}</span>
+        </summary>
+        <div class="inner">
+            {{- .TableOfContents -}}
+        </div>
+    </details>
+</div>
+
+<!-- 浮动式TOC (大屏幕使用) -->
+<aside class="floating-toc" id="floating-toc">
+    <div class="floating-toc-header">
+        <h3 class="floating-toc-title">{{- i18n "toc" | default "目录" }}</h3>
+        <button class="floating-toc-toggle" id="floating-toc-toggle" aria-label="Toggle TOC">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+    </div>
+    <div class="floating-toc-content" id="floating-toc-content">
+        <div class="floating-toc-progress">
+            <div class="floating-toc-progress-bar" id="reading-progress"></div>
+        </div>
+        <nav class="floating-toc-nav">
+            {{- .TableOfContents -}}
+        </nav>
+    </div>
+</aside>
+
+{{- end -}}

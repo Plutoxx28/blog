@@ -28,7 +28,7 @@ cover:
 视频链接：[What's next for AI agentic workflows ft. Andrew Ng of AI Fund](https://www.youtube.com/watch?v=sal78ACtGTc)
 
 Reflection是一种使AI能够自我审视和分析其决策过程与行为表现的技术，让agent通过回顾自己的行为和接收的反馈，识别决策和知识的不足，进而调整和优化，以期在未来任务中表现得更好。
-# 一、框架
+## 一、框架
 Actor接收环境的状态信息，结合短期记忆（轨迹）生成初步的内容或动作。通过内部反馈和外部反馈并结合自我反思机制进行反思，过程中利用长期记忆（经验）优化生成的的内容或动作。
 
 ![reflection框架](https://blogpicxx8.oss-cn-shanghai.aliyuncs.com/reflection%E6%A1%86%E6%9E%B6)
@@ -42,7 +42,7 @@ Actor接收环境的状态信息，结合短期记忆（轨迹）生成初步的
 - Memory：“轨迹历史”作为短期记忆，而自我反思模型的输出则被保存为长期记忆。这两种记忆类型的结合为agent提供了即具体又包含多次尝试中学习到的教训的上下文。
 
 **记忆：** 当检索内容过多时，长期记忆可以帮助agent快速定位&检索。
-# 二、细节
+## 二、细节
 **步骤：**
 1. Actor通过与环境的交互生成一系列行动轨迹 τ0。
 2. 评估器根据这些行动输出一个得分 r0，此得分通过公式 rt = Me(τ0) 计算得出，代表了该尝试的效果，其值会随着对应任务表现的提升而增加。
@@ -50,15 +50,15 @@ Actor接收环境的状态信息，结合短期记忆（轨迹）生成初步的
 4. Actor、Evaluator以及Self-reflection模型协同工作，通过重复的尝试循环不断优化，直至评估器判断最新的轨迹 τt 达到预期的正确性。
 5. 根据反馈生成优化后的内容或行为。
 
-# 三、结论
+## 三、结论
 可以看到基模型在使用self-refine后对于不同工作的性能大幅提升。
 ![result1](https://blogpicxx8.oss-cn-shanghai.aliyuncs.com/reflection%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%9C1)
 
 使用reflexion技术后，各种模型在HotPotQA数据集上的首次通过准确率均有所提高。
 ![result2](https://blogpicxx8.oss-cn-shanghai.aliyuncs.com/reflection%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%9C2)
 
-# 四、示例
-## 4.1 Decision-making
+## 四、示例
+### 4.1 Decision-making
 Environment: You are in the middle of a room. Looking quickly around you, you see a bed 1, a desk 2, a desk 1, a drawer 6, a drawer 5, a drawer 4, a drawer 3, a drawer 2, a drawer 1, a garbagecan 1, a laundryhamper 1, a safe 1, a shelf 6, a shelf 5, a shelf 4, a shelf 3, a shelf 2, and a shelf 1.   
 Task: examine the mug with the desklamp.  
 
@@ -105,9 +105,10 @@ You turn on the desklamp 1.
 Status: Success
 
 <font color = "#FA541C">通过反思trial1，trial2就直接从desk1开始了。</font>
-# 五、标准参考
+
+## 五、标准参考
 reflection中的标准很重要，定义好标准后，才能进行有效的反思。
-## 5.1 Acronym Generation（首字母缩写生成）
+### 5.1 Acronym Generation（首字母缩写生成）
 评估标准：
 1）发音便利性；2）拼写便利性；3）与标题相关性；4）正面寓意；5）知名度。
 
@@ -123,7 +124,7 @@ Scores:
 * Well-known: UBPA is not a well-known acronym. 1/5
 * Total score: 19/25
 
-## 5.2 Dialogue Response Generation
+### 5.2 Dialogue Response Generation
 评估标准：
 1）相关性；2）信息量；3）有趣性；4）一致性；5）帮助性；6）吸引性；7）具体性；8）安全性；9）用户理解；10）流畅性
 
@@ -147,7 +148,7 @@ Scores:
 * Fluent: The response is fluent and easy to understand. 3/3
 * Total score: 17/30
 
-# 六、应用
+## 六、应用
 可以仅通过prompt来实现reflection。下面是个翻译的prompt：
 
 分三步进行翻译工作，并打印每步的结果：
@@ -157,7 +158,7 @@ Scores:
 
 <font color = "#FA541C">步骤2的部分就是Reflection，在prompt中标明Reflection标准，在第三步应用反思内容进行优化。</font>
 
-# 七、附录
+## 七、附录
 相关论文：
 
 1、[Chain-of-Thought Prompting Elicits Reasoning in Large Language Models, Wei et al. (2022)](https://arxiv.org/abs/2201.11903)
