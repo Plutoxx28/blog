@@ -1,21 +1,22 @@
 ---
 title: "Manus上下文工程学习思考" #标题
 date: "2025-07-20" #创建时间
+lastmod: "2025-07-20"
 author: ["Plutoxx28"] #作者
 categories: 
 - AI
 tags: 
 - Context Engineering
-description: "" #文章描述
+description: "Manus 的上下文工程原则与实践要点梳理" #文章描述
 weight: # 输入1可以顶置文章，用来给文章展示排序，不填就默认按时间排序
-slug: "" #seo使用，示例：http://example.com/ultimate-guide-making-perfect-pasta
+slug: "manus-context-engineering" #seo使用，示例：http://example.com/ultimate-guide-making-perfect-pasta
 draft: false # 是否为草稿
 comments: true #是否展示评论
-showToc: true # 显示目录
+ShowToc: true # 显示目录
 TocOpen: true # 自动展开目录
 hidemeta: false # 是否隐藏文章的元信息，如发布日期、作者等
 disableShare: true # 底部不显示分享栏
-showbreadcrumbs: true #顶部显示当前路径
+ShowBreadCrumbs: true #顶部显示当前路径
 cover:
     image: "" #图片路径：posts/tech/文章1/picture.png
     caption: "" #图片底部描述
