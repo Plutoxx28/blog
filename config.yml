@@ -33,15 +33,19 @@ languages:
       series: series
     menu:
       main:
-        - name: 📥 Archive
+        - name: Posts
+          url: /
+          weight: 1
+        - name: Archive
           url: archives
           weight: 5
-        - name: 🔍 Search
+        - name: Search
           url: search/
           weight: 10
-        - name: 🏷️ Tags
+        - name: Tags
           url: tags/
           weight: 15
+
   
 outputs:
   home:
@@ -57,7 +61,7 @@ params:
   defaultTheme: auto
   disableThemeToggle: false
   ShowShareButtons: false
-  ShowReadingTime: false
+  ShowReadingTime: true
   # disableSpecial1stPost: true
   displayFullLangName: true
   ShowPostNavLinks: true

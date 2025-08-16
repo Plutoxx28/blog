@@ -1,0 +1,4 @@
+- id: read_time
+  translation:
+    one : "Estimated Reading Time: 1min"
+    other: "Estimated Reading Time: {{ .Count }}min"
