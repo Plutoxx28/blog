@@ -650,5 +650,84 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<!-- Mermaid 暗色主题支持 -->
 <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-<script defer src="/js/mermaid-init.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (typeof window.mermaid !== 'undefined') {
+    let currentTheme = null;
+    
+    function getMermaidTheme() {
+      const isDarkTheme = document.body.classList.contains('dark');
+      return isDarkTheme ? 'dark' : 'default';
+    }
+
+    function initMermaid() {
+      const theme = getMermaidTheme();
+      if (currentTheme !== theme) {
+        currentTheme = theme;
+        try {
+          mermaid.initialize({
+            startOnLoad: true,
+            securityLevel: 'loose',
+            theme: theme,
+            themeVariables: theme === 'dark' ? {
+              primaryColor: '#bb2528',
+              primaryTextColor: '#ffffff',
+              primaryBorderColor: '#7C0000',
+              lineColor: '#ffffff',
+              secondaryColor: '#006100',
+              tertiaryColor: '#fff'
+            } : {}
+          });
+        } catch (error) {
+          console.error('Mermaid initialization error:', error);
+        }
+      }
+    }
+
+    function reinitializeMermaid() {
+      try {
+        // 清除所有已处理的mermaid元素
+        document.querySelectorAll('.mermaid[data-processed]').forEach(function(el) {
+          el.removeAttribute('data-processed');
+          el.innerHTML = el.getAttribute('data-original-content') || el.innerHTML;
+        });
+        
+        initMermaid();
+        
+        // 重新渲染
+        if (typeof mermaid.run === 'function') {
+          mermaid.run();
+        }
+      } catch (error) {
+        console.error('Mermaid reinitialization error:', error);
+      }
+    }
+
+    // 初始化时保存原始内容
+    document.querySelectorAll('.mermaid').forEach(function(el) {
+      if (!el.getAttribute('data-original-content')) {
+        el.setAttribute('data-original-content', el.innerHTML);
+      }
+    });
+
+    // 初始化
+    initMermaid();
+    
+    // 使用MutationObserver监听body类名变化
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          setTimeout(reinitializeMermaid, 100);
+        }
+      });
+    });
+    
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+  }
+});
+</script>

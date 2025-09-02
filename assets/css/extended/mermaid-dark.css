@@ -1,0 +1,43 @@
+/* Mermaid 暗色主题样式 */
+.dark .mermaid text,
+.dark .mermaid .nodeLabel,
+.dark .mermaid .edgeLabel,
+.dark .mermaid .label,
+.dark .mermaid .labelText {
+    fill: #ffffff !important;
+    color: #ffffff !important;
+}
+
+.dark .mermaid .node rect,
+.dark .mermaid .node circle,
+.dark .mermaid .node polygon {
+    stroke: #ffffff !important;
+}
+
+.dark .mermaid .edgePath .path {
+    stroke: #ffffff !important;
+}
+
+.dark .mermaid .arrowheadPath {
+    fill: #ffffff !important;
+    stroke: #ffffff !important;
+}
+
+/* 额外的暗色主题优化 */
+.dark .mermaid .actor {
+    stroke: #ffffff !important;
+}
+
+.dark .mermaid .messageLine0,
+.dark .mermaid .messageLine1 {
+    stroke: #ffffff !important;
+}
+
+.dark .mermaid .note {
+    fill: #2d3748 !important;
+    stroke: #ffffff !important;
+}
+
+.dark .mermaid .noteText {
+    fill: #ffffff !important;
+}
