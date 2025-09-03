@@ -65,11 +65,11 @@ AI 对项目的了解仅限于你明确告诉它的内容。它无法自行查�
 
 我 Add to Chat 了对应的代码，并说：“env 文件里的我需要处理吗？”想表达的意思是我还需不需要修改 Redis 啊？
 
-![与 Cursor 关于 env 配置疑问的对话示例](/images/06/1.png "Cursor 对话示例：是否需要修改 Redis 配置")
+![与 Cursor 关于 env 配置疑问的对话示例](https://blogpicxx8.oss-cn-shanghai.aliyuncs.com/images/06/1.png "Cursor 对话示例：是否需要修改 Redis 配置")
 
 Cursor 没明白<处理>其实是我要问是不是<修改>，因为之前上下文的交互，我会天然以为他能理解，结果并没有，最后是我做了澄清，然后解决了问题。
 
-<img src="/images/06/2.png" alt="对话澄清后的解决结果示例" title="Cursor 澄清后：确认处理项与 Redis 修改的关系" width="50%">
+<img src="https://blogpicxx8.oss-cn-shanghai.aliyuncs.com/images/06/2.png" alt="对话澄清后的解决结果示例" title="Cursor 澄清后：确认处理项与 Redis 修改的关系" width="50%">
 
 这个小插曲其实很能说明问题 —— 不是 AI 能力不行，而是我没有“说人话”。AI 不像人类同事，没法通过经验和语境猜测我们真正的意图。当 PM 提供模糊需求时，AI 只能自行填补空白，结果往往偏离我们的预期。那么，如何让 AI 更好地理解我们的意图呢？答案是结构化需求描述。因为结构化的描述可以给到更多的需求信息，也限制了 AI 的“胡乱补全”，这里有两种实用方法：
 
@@ -116,7 +116,7 @@ Cursor 没明白<处理>其实是我要问是不是<修改>，因为之前上下
       <td>普通提示词</td>
       <td>做一个登录页面</td>
       <td>
-        <img alt="图片3" src="/images/06/3.png">
+        <img alt="图片3" src="https://blogpicxx8.oss-cn-shanghai.aliyuncs.com/images/06/3.png">
       </td>
     </tr>
     <tr>
@@ -189,7 +189,7 @@ Cursor 没明白<处理>其实是我要问是不是<修改>，因为之前上下
         </details>
       </td>
       <td>
-        <img alt="图片4" src="/images/06/4.png">
+        <img alt="图片4" src="https://blogpicxx8.oss-cn-shanghai.aliyuncs.com/images/06/4.png">
       </td>
     </tr>
   </tbody>
@@ -245,7 +245,7 @@ Cursor 没明白<处理>其实是我要问是不是<修改>，因为之前上下
     <tr>
       <td>最初的想法</td>
       <td>做一个用户可以管理自己订阅的页面，可以看到当前状态，进行续订和升级操作。</td>
-      <td><img alt="图片5" src="/images/06/5.png"></td>
+      <td><img alt="图片5" src="https://blogpicxx8.oss-cn-shanghai.aliyuncs.com/images/06/5.png"></td>
     </tr>
     <tr>
       <td>AI转换后</td>
@@ -343,7 +343,7 @@ Cursor 没明白<处理>其实是我要问是不是<修改>，因为之前上下
         </details>
       </td>
       <td>
-        <img alt="图片6" src="/images/06/6.png">
+        <img alt="图片6" src="https://blogpicxx8.oss-cn-shanghai.aliyuncs.com/images/06/6.png">
       </td>
     </tr>
   </tbody>
@@ -356,6 +356,35 @@ Cursor 没明白<处理>其实是我要问是不是<修改>，因为之前上下
 ### 3.2 为 AI 提供上下文
 
 当谈到使用 AI 去 coding 的时候，一个常被忽视但极其重要的问题就是上下文缺失。AI 可能很擅长单独编写功能，但如果不了解整个项目的架构和约定，它生成的代码往往难以与现有系统集成，甚至技术栈可能也有偏差。解决这一问题的关键是为 AI 提供充分的项目上下文。在不同场景下可以采取不同的策略。
+
+**场景一：初次接手项目或者展开一个新的对话**
+
+刚接手项目时，如果有 README、Cursor Rules 这类项目文档，直接把它们 @ 给 AI 是最省事有效的方法。AI 能快速了解整个项目的架构设计和代码规范，避免生成的代码和项目风格不匹配。
+
+如果项目中还没有这样的文档，可以使用 Cursor 的 /Generate Cursor Rules 功能，它会自动分析项目并生成规则文件。假期在看「Suna」这个 agent 项目就试了一下，Cursor 直接生成了 4 个 rules 文件，包含了项目结构、LLM配置、数据库和身份验证、部署和环境配置的详细说明。将这些 rules 提供给 AI 后，它立即就能理解整个项目架构。
+
+如果你使用的是其他 coding 工具，也可以先让 AI 浏览项目的关键文件，然后请它总结项目架构。这样 AI 就能建立起对项目的基本认知，后续生成的代码也更容易与项目集成。
+
+```
+@rules
+请分析这些文件，总结一下这个项目的整体架构、技术栈和主要模块，这样你才能帮我更好地开发新功能。
+```
+
+结果
+
+<img alt="图片7" src="https://blogpicxx8.oss-cn-shanghai.aliyuncs.com/images/06/7.jpg">
+
+**场景二：实现具体需求**
+
+当你已经比较熟悉项目，在改实际需求的时候，就没必要每次都把整个项目结构告诉 AI 了。这时候直接把与当前需求相关的文件都 @ 出来就够了。
+
+Cursor 的设计主管有这样的说明：
+
+```
+Use @ file, @ folders, @ git to scope Cursor's attention to the right parts of your codebase.
+```
+
+意思就是在解决对应问题或者需求的时候，应该把具体的内容 @ 出来，也可以从控制台把 API 响应数据扒出来，这些都是非常好的方式，可以把 Cursor 的注意力集中在最相关的代码上。比如我在改 AI coding 订阅管理系统的时候，就使用了这种方式：
 
 ```text
 数据库中已经有了，你可以看下 `crud.py` 怎么修改。以及，这段响应代码的 amount 是 900，为什么页面上展示 20？我现在已经在数据库里增加了一个字段是"expired_reason"，是 varchar，这个字段表示的是用户的过期原因。过期原因有三种：natural（自然过期）、link_expired（支付链接过期）、account_anomaly（账号异常过期）。
