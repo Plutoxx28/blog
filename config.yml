@@ -11,6 +11,7 @@ enableRobotsTXT: true #允许爬虫抓取到搜索引擎
 buildDrafts: false
 buildFuture: false
 buildExpired: false
+summaryLength: 500  # 增加summary长度限制
 
 pagination:
   pagerSize: 15 #每页显示的文章数
