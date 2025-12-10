@@ -84,17 +84,17 @@ params:
 
 
   socialIcons:
-    - name: X
-      title: Twitter Profile Page
-      url: "https://twitter.com/soul9023"
+    # - name: X
+    #   title: Twitter Profile Page
+    #   url: "https://twitter.com/soul9023"
       
     - name: other
       title: Xiaohongshu Personal Homepage
       url: "https://www.xiaohongshu.com/user/profile/5657afcae4251d7481c8f9fe?xhsshare=CopyLink&appuid=5657afcae4251d7481c8f9fe&apptime=1706968510"
 
-    - name: buymeacoffee
-      title: Buy me a coffee :)
-      url: "https://www.buymeacoffee.com/nicoyoung1n"
+    # - name: buymeacoffee
+    #   title: Buy me a coffee :)
+    #   url: "https://www.buymeacoffee.com/nicoyoung1n"
 
   # editPost:
     # URL: "https://github.com/adityatelange/hugo-PaperMod/tree/exampleSite/content"
