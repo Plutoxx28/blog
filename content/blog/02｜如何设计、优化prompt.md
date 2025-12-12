@@ -244,7 +244,6 @@ gpts的prompt：<https://github.com/linexjlin/GPTs/tree/main>
 **相关网站：**
 
 - [prompt优化网站](https://promptperfect.jina.ai/home)
-- [prompt优化GPTs](https://chat.openai.com/g/g-ThKd0JmFB-prompt-you-hua-da-shi)
 
 通过这两种方法，您可以根据自己的需求和资源选择最合适的优化路径。点对点优化适合那些追求高度定制化和精确度的用户，而甩手掌柜式优化则适合追求效率和通用性的场景。无论选择哪种方法，目标都是通过精细的调整，使提示更加高效和有效。
 
