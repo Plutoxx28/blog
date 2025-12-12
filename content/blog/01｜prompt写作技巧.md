@@ -108,8 +108,6 @@ Self Correction是指让模型反思自己的回答，并从批判性的角度�
 
 [GPTs从入门、进阶、实践到防护](https://zzi7a49xoa.feishu.cn/wiki/EPSgwSDQtiJRxwkliesc6GYgnof)
 
-[LLMs攻防：GPTs如何获取别人的提示词和敏感文件以及如何防御攻击](https://mp.weixin.qq.com/s/HBZS8nk-3E-zzQWvnu0yVQ)
-
 ## 三、prompt 结构化模板
 
 图片是一个prompt结构化的示例：
