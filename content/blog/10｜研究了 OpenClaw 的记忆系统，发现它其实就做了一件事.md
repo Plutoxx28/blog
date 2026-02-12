@@ -40,13 +40,14 @@ cover:
 
 OpenClaw 里的 Memory（记忆）是落在磁盘上的持久化内容，跟 Context 是两回事——Context 随对话结束就没了，Memory 不会。但模型不会自动“看到”Memory 里的内容，需要通过检索工具把相关片段拉回到 Context 里才能用。
 
-具体形态上，OpenClaw 的记忆不是神秘数据库，就是工作区里的 Markdown 文件。官方文档原话：***files are the source of truth; the model only “remembers” what gets written to disk.***
+具体形态上，OpenClaw 的记忆不是神秘数据库，就是工作区里的 Markdown 文件。官方文档原话：
+> **files are the source of truth; the model only “remembers” what gets written to disk.**
 
 它分两层，像两本笔记本：
 
-**`memory/YYYY-MM-DD.md`** —— 流水账。按天记录，追加写入，适合“今天发生了什么”“这周在推什么”。默认模板会要求 agent 在 session start 主动阅读今天和昨天的日记；同时索引器也会扫描 `memory/` 目录，用于后续检索建库。
+- **`memory/YYYY-MM-DD.md`** —— 流水账。按天记录，追加写入，适合“今天发生了什么”“这周在推什么”。默认模板会要求 agent 在 session start 主动阅读今天和昨天的日记；同时索引器也会扫描 `memory/` 目录，用于后续检索建库。
 
-**`MEMORY.md`（可选，不会自动创建，需要你主动建或让 agent 写入）** —— 精华本。放长期偏好、关键决策、稳定不变的事实。但有个重要细节：它只在私聊 session 中注入，群聊/频道里不会加载，避免私人记忆泄露到公共对话。
+- **`MEMORY.md`（可选，不会自动创建，需要你主动建或让 agent 写入）** —— 精华本。放长期偏好、关键决策、稳定不变的事实。但有个重要细节：它只在私聊 session 中注入，群聊/频道里不会加载，避免私人记忆泄露到公共对话。
 
 ### 2、每次对话都注入的“身份文件”
 
@@ -100,9 +101,7 @@ Markdown 按行累积切片，每段大约 400 tokens，相邻段有 80 tokens �
 
 - **BM25 关键词检索**（一种经典的全文检索算法，按关键词的出现频率和稀有程度打分）擅长找“字面命中”的内容。人名、日期、ID、配置键、代码符号这些，向量反而不如关键词靠谱。
 
-合并方式是：两边各取一个候选池（默认是最终结果数的 4 倍），按 chunk ID 做并集合并，然后加权打分。默认权重是 `0.7 × 向量 + 0.3 × 关键词`，低于 0.35 分的结果过滤掉，最终返回前 6 个。
-
-官方文档自己也说了，这不是“IR 理论上最完美的方案”，但简单、快、在实际笔记场景下效果不错。
+合并方式是：两边各取一个候选池（默认是最终结果数的 4 倍），按 chunk ID 做并集合并，然后加权打分。默认权重是 `0.7 × 向量 + 0.3 × 关键词`，低于 0.35 分的结果过滤掉，最终返回前 6 个。官方文档自己也说了，这不是“IR 理论上最完美的方案”，但简单、快、在实际笔记场景下效果不错。
 
 补充一点：默认情况下只有 memory 文件会被索引，但 OpenClaw 还有一个实验性功能——**Session 转录索引**。要用它，开启后（`experimental.sessionMemory = true`，还需要把 `sources` 里包含 `"sessions"`，如 `sources: ["memory", "sessions"]`），这样即使你没让助手“记住”某件事，只要对话中讨论过，`memory_search` 也有可能通过语义检索找到那段对话。相当于把检索范围从“主动写下的笔记”扩大到了“所有聊过的内容”。
 
@@ -114,25 +113,71 @@ Markdown 按行累积切片，每段大约 400 tokens，相邻段有 80 tokens �
 
 ### 1、Compaction：把早期历史压成摘要
 
-当 session 的上下文快到模型窗口上限时，OpenClaw 触发 compaction：把较早的历史总结成一条摘要，保留最近的消息。好处直接：token 用量拉下来，会话能继续。但副作用也直接：摘要是有损的，总会漏掉一些“当时随口说的重要点”。
+当 session 的上下文快到模型窗口上限时，OpenClaw 触发 compaction：把较早的历史总结成一条摘要，保留最近的消息。
+
+好处直接：token 用量拉下来，会话能继续。但副作用也直接：摘要是有损的，细节会被压缩掉。比如一段很长的对话经过 Compaction 后可能变成：
+
+```
+[Compaction 摘要]
+用户和助手讨论了数据库迁移方案，从 PG-A 迁到 PG-B，确认了连接串。
+讨论了是否使用 GraphQL，最终决定不用。还调试了一个 CORS 配置问题并解决。
+```
+
+信息是对的，但具体的连接串是什么、不用 GraphQL 的理由是什么、CORS 怎么配的——这些细节全丢了。
 
 ### 2、Memory Flush：压缩之前先存档
 
 这是我觉得 OpenClaw 最聪明的设计。
 
-它不指望 compaction 做到无损，而是在 compaction 真正发生之前，插入一个静默的 agentic turn，提醒模型存档。具体来说，系统会同时注入两条提示：一条追加到 system prompt，告诉模型当前 session 即将压缩，应该把值得长期保存的内容写到磁盘；一条作为 user prompt，指示模型将笔记写入 `memory/YYYY-MM-DD.md`，如果没什么需要保存的就回复 `NO_REPLY`。
+它不指望 compaction 做到无损，而是在 compaction 真正发生之前，插入一个静默的 agentic turn，让模型自己判断"哪些具体事实值得留下来"，然后以原始粒度写入文件。注意，Flush 不是在做摘要，而是在做"挑拣+落盘"——模型会把具体的值、具体的理由、具体的结论写下来。
 
-触发时机是 `contextWindow - reserveTokensFloor(20000) - softThresholdTokens(4000)`。比如 200K 上下文的模型，大约在 176K tokens 时就会触发 flush，比真正的 compaction 提前了 4000 token 的量。
+同样的对话，Flush 写入 `memory/2026-02-11.md` 的内容可能是：
 
-每个 compaction 周期只 flush 一次，防止重复。用户完全感知不到这个过程。**为什么这步很关键？** 因为它把风险从“摘要是否写对”转成了“有没有在压缩前把关键点落盘”。一旦落盘，哪怕摘要漏了，后续通过 `memory_search` 还能检索回来。
+```
+## 数据库迁移
+- 从 PG-A 迁移到 PG-B，新连接串：POSTGRES_URL=postgresql://admin:xxx@pg-b.internal:5432/prod
+- 决定不用 GraphQL，理由：现有 REST API 已覆盖所有场景，团队没有 GraphQL 经验，引入会增加维护成本
+- CORS 问题：nginx 配置里 Access-Control-Allow-Origin 要用具体域名，不能用通配符 *（生产环境安全要求）
+```
 
-一句话：先存档，再压缩。
+区别一目了然：**Compaction 压缩的是对话历史，丢细节换空间；Flush 保存的是具体事实，后续可以被精确检索回来。** 具体来说，系统会同时注入两条提示：一条追加到 system prompt，告诉模型当前 session 即将压缩，应该把值得长期保存的内容写到磁盘；一条作为 user prompt，指示模型将笔记写入 `memory/YYYY-MM-DD.md`，如果没什么需要保存的就回复 `NO_REPLY`。
+
+触发时机是 `contextWindow - reserveTokensFloor(20000) - softThresholdTokens(4000)`。比如 200K 上下文的模型，大约在 176K tokens 时就会触发 flush，比真正的 compaction 提前了 4000 token 的量。每个 compaction 周期只 flush 一次，防止重复。用户完全感知不到这个过程。
+
+**为什么这步很关键？** 因为它把风险从"摘要是否写对"转成了"有没有在压缩前把关键点落盘"。一旦落盘，哪怕摘要漏了，后续通过 `memory_search` 还能检索回来。**一句话：先存档，再压缩。**
 
 ### 3、Session Pruning：专治工具输出太肥
 
-Pruning 解决的是另一类膨胀：工具输出。一个命令跑几万行日志、读回一整个文件，这些 toolResult 堆在上下文里会快速耗尽 token。以及只修剪 toolResult，不动用户和助手的正常消息，而且只影响这次发给模型的上下文，不回写磁盘上的对话记录。分两级：soft-trim 保留头尾中间插省略号，hard-clear 直接替换成提示文字。
+Pruning 解决的是另一类膨胀：工具输出。Agent 在工作过程中会调用各种工具（执行命令、读文件、搜索等），这些工具的返回结果（toolResult）会原样留在上下文里。一个 `exec` 跑出几万行日志、一个 `read` 拉回一整个配置文件，堆积起来会快速耗尽 token。
 
-可以理解成：不删档案，只是这次开会别把 5 万行日志打印出来。现在把这些机制串起来，才是完整的“记忆系统”长什么样。
+Pruning 的策略很克制：只修剪 toolResult，不动用户和助手的正常消息；而且只影响这次发给模型的上下文，不回写磁盘上的对话记录。分两级：**Soft-trim**——保留头部和尾部，中间用省略号替代。适用于内容虽大但可能有用的输出：
+
+```
+# 修剪前（原始 toolResult，假设 3000 行日志）
+[2026-02-11 10:01:03] Starting migration...
+[2026-02-11 10:01:03] Connecting to source DB...
+[2026-02-11 10:01:04] Reading table users (150,000 rows)...
+[2026-02-11 10:01:05] Reading table orders (2,300,000 rows)...
+...(中间 2990 行省略)...
+[2026-02-11 10:15:22] Migration completed. 45 tables, 0 errors.
+
+# Soft-trim 后
+[2026-02-11 10:01:03] Starting migration...
+[2026-02-11 10:01:03] Connecting to source DB...
+...
+[2026-02-11 10:15:22] Migration completed. 45 tables, 0 errors.
+```
+
+**Hard-clear**——整个替换成一句提示。适用于更老的、大概率不再需要的输出：
+
+```
+# Hard-clear 后
+[Old tool result content cleared]
+```
+
+可以理解成：不删档案，只是这次开会别把 5 万行日志打印出来。
+
+现在把这些机制串起来，才是完整的"记忆系统"长什么样。
 
 ## 五、一次完整流程长什么样
 
@@ -153,6 +198,7 @@ graph LR
     H -->|到达上限| J[Compaction 压缩摘要]
 ```
 
+<br>
 把上面的机制串起来，一个典型场景是这样的：
 
 <div style="border:1px solid rgba(128,128,128,0.3); border-radius:8px; padding:20px; margin:16px 0;">
@@ -190,9 +236,7 @@ graph LR
 
 ## 六、回到开头那句话
 
-OpenClaw 的记忆系统确实就做了一件事——**把模型的“短期记忆”卸载到文件系统，然后用检索桥接回来。**
-
-它没有用什么黑科技，Markdown 文件、SQLite 索引、BM25 + 向量混合检索，都是成熟的技术。但它把这些东西组合成了一条完整的流水线：写入 → 监听 → 索引 → 检索 → 在压缩前补写，每个环节都有对应的容错机制。
+OpenClaw 的记忆系统确实就做了一件事—— **把模型的“短期记忆”卸载到文件系统，然后用检索桥接回来。** 它没有用什么黑科技，Markdown 文件、SQLite 索引、BM25 + 向量混合检索，都是成熟的技术。但它把这些东西组合成了一条完整的流水线：写入 → 监听 → 索引 → 检索 → 在压缩前补写，每个环节都有对应的容错机制。
 
 如果你在做 AI Agent 相关的产品，这套思路值得参考——不是因为实现复杂，恰恰是因为它足够简单和透明。记忆就是文件，出了问题打开就能看、能改、能用 git 追溯。这可能是它最聪明的设计选择。
 
