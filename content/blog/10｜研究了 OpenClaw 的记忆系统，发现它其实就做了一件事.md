@@ -1,4 +1,30 @@
-# 研究了 OpenClaw 的记忆系统，发现它其实就做了一件事
+---
+title: "研究了 OpenClaw 的记忆系统，发现它其实就做了一件事" #标题
+date: "2026-02-12" #创建时间
+lastmod: "2026-02-12"
+author: ["Plutoxx28"] #作者
+categories: 
+- AI Agent
+tags: 
+- OpenClaw
+- Memory
+description: "拆解 OpenClaw 记忆系统：Markdown 持久化 + BM25/向量混合检索 + flush-before-compact，一套让 Agent '记得住'的完整流水线。" #文章描述
+weight: # 输入1可以顶置文章，用来给文章展示排序，不填就默认按时间排序
+slug: "openclaw-memory-system-explained" #seo使用，示例：http://example.com/ultimate-guide-making-perfect-pasta
+draft: false # 是否为草稿
+comments: true #是否展示评论
+ShowToc: true # 显示目录
+TocOpen: true # 自动展开目录
+hidemeta: false # 是否隐藏文章的元信息，如发布日期、作者等
+disableShare: true # 底部不显示分享栏
+ShowBreadCrumbs: true #顶部显示当前路径
+ShowReadingTime: true #展示阅读时间
+cover:
+    image: "" #图片路径：posts/tech/文章1/picture.png
+    caption: "" #图片底部描述
+    alt: "" #这里填写图片无法显示时的替代文本
+    relative: false # 如果这个路径是从网站根目录开始的，这里就保持为 false
+---
 
 你可能遇到过这种情况：上周跟 AI 助手聊了半天项目方案，这周再问“当时怎么定的？”，它一脸茫然。这不是它笨。LLM 的“记忆”本质上是上下文窗口（Context）——模型在一次请求里能看到的全部内容，由系统提示、对话历史、工具输出和你刚发的消息拼起来。模型的推理和回答只能基于 Context 里有的东西，但 Context 是短暂的、有上限的、越大越贵。你希望它像硬盘一样长期存储，但它的工作方式决定了它做不到。
 
